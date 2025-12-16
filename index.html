@@ -744,8 +744,25 @@
             }
         }
         
-        /* ... existing styles for buttons, mobile optimization, etc. ... */
-
+        /* New button grouping for Live Scoring */
+        .live-scoring-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .live-scoring-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .live-scoring-actions button {
+                width: 100%;
+                margin: 0 !important;
+            }
+        }
+        
         /* HIDDEN: Remove action history section */
         .action-history, #action-history {
             display: none !important;
@@ -1414,10 +1431,10 @@
             legalBallsThisOver: 0,
             
             // NEW PLAYER TRACKING
-            batsmen: [], // [{ id, name, runs, balls, isStriker: bool, fours, sixes }]
-            bowler: null, // { id, name, runs, wickets, balls }
-            allPlayersStats: {}, // Stores all innings stats keyed by playerId
-            fallOfWickets: [] // [{ score, over, batsmanOut, fielder, bowler, dismissalType }]
+            batsmen: [], 
+            bowler: null, 
+            allPlayersStats: {}, 
+            fallOfWickets: [] 
         };
         
         // Custom Match State (kept as is)
@@ -1434,17 +1451,9 @@
         let previousSteps = [];
         let currentStep = 1;
 
-        // Utility to find player by ID in the current batting team
-        function findPlayer(playerId) {
-            return cricketMatchState.batsmen.find(b => b.id === playerId);
-        }
-
-        // Utility to find player by ID across all available players (for stats aggregation)
-        function findGlobalPlayer(playerId) {
-            let player = cricketMatchState.battingTeam.players.find(p => p.id === playerId);
-            if (player) return player;
-            player = cricketMatchState.bowlingTeam.players.find(p => p.id === playerId);
-            return player;
+        // Utility functions
+        function findGlobalPlayer(playerId, team) {
+            return team.players.find(p => p.id === playerId);
         }
         
         // Initialize the application
@@ -1467,12 +1476,13 @@
             // Set default team selection in match setup
             setupTeamSelectionEvents();
             
-            setupCustomScoringControls(); // Setup custom controls
+            setupCustomScoringControls();
             
             console.log("App initialized successfully!");
         }
 
         function setupEventListeners() {
+            // ... (setupEventListeners implementation) ...
             console.log("Setting up event listeners...");
             
             // Sport selection
@@ -1483,7 +1493,6 @@
                     this.classList.add('selected');
                     tournamentData.sport = this.getAttribute('data-sport');
                     
-                    // Update UI based on sport
                     updateSportUI();
                 });
             });
@@ -1700,7 +1709,6 @@
                             addCricketRun(parseInt(runs));
                         } else if (wicket !== null) {
                             promptWicketDetails(); // Initiates wicket flow
-                            // Note: Wicket logic adds action to history internally after prompt/selection
                             return; // Skip default history push below
                         } else if (extra === 'noball4') {
                              addCricketExtra('noball', 4);
@@ -1820,10 +1828,557 @@
         }
         
         // ... (Navigation, Setup functions) ...
+        function setupMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (mobileMenuToggle && mainNav) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mainNav.classList.toggle('hidden-on-mobile');
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768 && 
+                        !e.target.closest('.main-nav') && 
+                        !e.target.closest('#mobileMenuToggle') &&
+                        !mainNav.classList.contains('hidden-on-mobile')) {
+                        mainNav.classList.add('hidden-on-mobile');
+                    }
+                });
+                
+                if (window.innerWidth > 768) {
+                    mainNav.classList.remove('hidden-on-mobile');
+                }
+                
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        mainNav.classList.remove('hidden-on-mobile');
+                    }
+                });
+            }
+        }
+        function goToStep(stepNumber) {
+            if (stepNumber !== currentStep) {
+                previousSteps.push(currentStep);
+                currentStep = stepNumber;
+            }
+            
+            const progressWidth = ((stepNumber - 1) / 4) * 100;
+            document.getElementById('step-progress').style.setProperty('--progress-width', `${progressWidth}%`);
+            
+            const stepIndicators = document.querySelectorAll('.step-indicator');
+            stepIndicators.forEach(indicator => {
+                const step = parseInt(indicator.getAttribute('data-step'));
+                if (step <= stepNumber) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+            
+            if (stepNumber === 1) {
+                showSection('sport-dashboard');
+            } else if (stepNumber >= 2 && stepNumber <= 4) {
+                showSection('tournament-setup');
+                
+                document.querySelectorAll('.setup-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                
+                if (stepNumber === 2) {
+                    document.getElementById('step1').classList.add('active');
+                } else if (stepNumber === 3) {
+                    document.getElementById('step2').classList.add('active');
+                } else if (stepNumber === 4) {
+                    document.getElementById('step3').classList.add('active');
+                }
+            } else if (stepNumber === 5) {
+                showSection('live-scoring');
+            }
+            
+            updateNavigation();
+        }
 
-        // CRICKET FUNCTIONS (Modified for Player Tracking)
+        function updateNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (currentStep === 1) {
+                document.querySelector('.nav-item[data-section="sport-dashboard"]').classList.add('active');
+            } else if (currentStep >= 2 && currentStep <= 4) {
+                document.querySelector('.nav-item[data-section="tournament-setup"]').classList.add('active');
+            } else if (currentStep === 5) {
+                document.querySelector('.nav-item[data-section="live-scoring"]').classList.add('active');
+            }
+        }
         
-        // Add runs in cricket (updates striker stats)
+        function showSection(sectionId) {
+            const dashboardSections = document.querySelectorAll('.dashboard-section');
+            dashboardSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            const mainNav = document.querySelector('.main-nav');
+            if (window.innerWidth <= 768 && mainNav) {
+                mainNav.classList.add('hidden-on-mobile');
+            }
+            
+            if (sectionId === 'sport-dashboard') {
+                currentStep = 1;
+            } else if (sectionId === 'tournament-setup') {
+                currentStep = 2;
+            } else if (sectionId === 'live-scoring') {
+                currentStep = 5;
+            }
+            
+            updateNavigation();
+        }
+
+        function updateSportUI() {
+            const sportName = tournamentData.sport.charAt(0).toUpperCase() + tournamentData.sport.slice(1);
+            
+            document.getElementById('selected-sport-name').textContent = sportName;
+            document.getElementById('setup-title').textContent = `${sportName} Tournament Details`;
+            
+            const sportSpecificControls = {
+                cricket: document.getElementById('cricket-controls'),
+                football: document.getElementById('football-controls'),
+                custom: document.getElementById('custom-controls')
+            };
+            
+            Object.values(sportSpecificControls).forEach(control => {
+                if (control) control.classList.remove('active');
+            });
+            
+            if (sportSpecificControls[tournamentData.sport]) {
+                sportSpecificControls[tournamentData.sport].classList.add('active');
+            }
+            
+            updateSportFormLabels();
+        }
+
+        function updateSportFormLabels() {
+            const tossTitle = document.getElementById('toss-title');
+            const tossWinnerLabel = document.getElementById('toss-winner-label');
+            const tossDecisionGroup = document.getElementById('toss-decision-group');
+            
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    tossTitle.textContent = 'Toss Winner & Decision';
+                    tossWinnerLabel.textContent = 'Toss Winner';
+                    tossDecisionGroup.style.display = 'block';
+                    document.getElementById('toss-decision').innerHTML = `
+                        <option value="bat">Bat First</option>
+                        <option value="bowl">Bowl First</option>
+                    `;
+                    break;
+                case 'football':
+                    tossTitle.textContent = 'Coin Toss & Choice';
+                    tossWinnerLabel.textContent = 'Coin Toss Winner';
+                    tossDecisionGroup.style.display = 'block';
+                    document.getElementById('toss-decision').innerHTML = `
+                        <option value="kickoff">Choose to Kick Off</option>
+                        <option value="side">Choose Side</option>
+                    `;
+                    break;
+                case 'custom':
+                    tossTitle.textContent = 'Starting Choice';
+                    tossWinnerLabel.textContent = 'Choice Winner';
+                    tossDecisionGroup.style.display = 'block';
+                    document.getElementById('toss-decision').innerHTML = `
+                        <option value="start">Choose to Start</option>
+                        <option value="receive">Choose to Receive</option>
+                        <option value="side">Choose Side</option>
+                    `;
+                    break;
+            }
+        }
+
+        function updateTournamentFromForm() {
+            tournamentData.name = document.getElementById('tournament-name').value || 'Champions League T20';
+            
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    const oversCountSelect = document.getElementById('overs-count');
+                    const customOversInput = document.getElementById('custom-overs-input');
+                    const playersPerTeam = document.getElementById('players-per-team');
+                    
+                    if (oversCountSelect.value === 'custom' && customOversInput.value) {
+                        tournamentData.sportSpecific.oversPerInnings = parseInt(customOversInput.value) || 20;
+                    } else if (oversCountSelect.value !== 'custom') {
+                        tournamentData.sportSpecific.oversPerInnings = parseInt(oversCountSelect.value) || 20;
+                    }
+                    
+                    tournamentData.sportSpecific.playersPerTeam = parseInt(playersPerTeam.value) || 11;
+                    break;
+                    
+                case 'football':
+                    tournamentData.sportSpecific.matchDuration = parseInt(document.getElementById('football-duration').value) || 90;
+                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('football-players').value) || 11;
+                    break;
+                    
+                case 'custom':
+                    tournamentData.name = document.getElementById('custom-sport-name').value + " Tournament" || 'Custom Tournament';
+                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('custom-players-per-team').value) || 7;
+                    tournamentData.sportSpecific.scoringUnit = document.getElementById('custom-scoring-unit').value || 'Points';
+                    tournamentData.sportSpecific.durationUnit = document.getElementById('custom-duration-unit').value || 'Minutes';
+                    break;
+            }
+            
+            document.getElementById('tournament-name-display').textContent = tournamentData.name;
+        }
+
+        function getTeamNameSuggestions() {
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    return [
+                        "Mumbai Indians", "Chennai Super Kings", "Royal Challengers", 
+                        "Kolkata Knight Riders", "Delhi Capitals", "Rajasthan Royals",
+                        "Sunrisers Hyderabad", "Punjab Kings", "Gujarat Titans",
+                        "Lucknow Super Giants", "Bangalore Blasters", "Hyderabad Strikers"
+                    ];
+                case 'football':
+                    return [
+                        "Manchester United", "Real Madrid", "Barcelona", 
+                        "Bayern Munich", "Paris Saint-Germain", "Liverpool",
+                        "Juventus", "AC Milan", "Chelsea", "Arsenal",
+                        "Manchester City", "Tottenham Hotspur"
+                    ];
+                case 'custom':
+                    return [
+                        "Dragons", "Sharks", "Aces", "Tigers", "Hawks", "Spikers"
+                    ];
+                default:
+                    return [];
+            }
+        }
+        
+        function generateTeams() {
+            const teamCount = parseInt(document.getElementById('team-count').value) || 4;
+            const teamsContainer = document.getElementById('teams-container');
+            teamsContainer.innerHTML = '';
+            
+            const teamNameSuggestions = getTeamNameSuggestions();
+            const playersPerTeam = tournamentData.sportSpecific.playersPerTeam || 11;
+            
+            for (let i = 0; i < teamCount; i++) {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'team-card';
+                teamCard.innerHTML = `
+                    <div class="team-header">
+                        <input type="text" class="team-name-input" value="${teamNameSuggestions[i] || `${tournamentData.sport.charAt(0).toUpperCase()}${tournamentData.sport.slice(1)} Team ${i+1}`}" data-team-index="${i}">
+                        <div style="color: var(--accent-green);">T${i+1}</div>
+                    </div>
+                    <ul class="player-list" id="players-team-${i}">
+                    </ul>
+                `;
+                teamsContainer.appendChild(teamCard);
+                
+                const playersList = document.getElementById(`players-team-${i}`);
+                for (let j = 0; j < playersPerTeam; j++) {
+                    const playerItem = document.createElement('li');
+                    playerItem.className = 'player-item';
+                    playerItem.innerHTML = `
+                        <input type="text" class="player-name-input" placeholder="Player ${j+1}" value="${teamNameSuggestions[i] ? `${teamNameSuggestions[i].split(' ')[0]} Player ${j+1}` : `Player ${j+1}`}">
+                        <span style="color: var(--text-muted); font-size: 0.9rem;">#${j+1}</span>
+                    `;
+                    playersList.appendChild(playerItem);
+                }
+            }
+            
+            updateTeamsFromUI();
+        }
+
+        function updateTeamsFromUI() {
+            tournamentData.teams = [];
+            const teamInputs = document.querySelectorAll('.team-name-input');
+            
+            teamInputs.forEach((input, index) => {
+                const team = {
+                    id: index + 1,
+                    name: input.value || `Team ${index + 1}`,
+                    players: []
+                };
+                
+                const playerInputs = document.querySelectorAll(`#players-team-${index} .player-name-input`);
+                playerInputs.forEach((playerInput, playerIndex) => {
+                    team.players.push({
+                        id: (index + 1) * 1000 + (playerIndex + 1), // Unique ID system (T1: 1001-1011, T2: 2001-2011)
+                        name: playerInput.value || `Player ${playerIndex + 1}`
+                    });
+                });
+                
+                tournamentData.teams.push(team);
+            });
+        }
+        
+        function validateTeams() {
+            updateTeamsFromUI();
+            
+            for (const team of tournamentData.teams) {
+                if (!team.name.trim()) {
+                    alert(`Please enter a name for ${team.name}`);
+                    return false;
+                }
+                
+                for (const player of team.players) {
+                    if (!player.name.trim()) {
+                        alert(`Please enter names for all players in ${team.name}`);
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+        function setupMatchConfiguration() {
+            updateTeamsFromUI();
+            
+            const teamsSelection = document.getElementById('teams-selection');
+            const tossWinnerSelect = document.getElementById('toss-winner');
+            teamsSelection.innerHTML = '';
+            tossWinnerSelect.innerHTML = '';
+            
+            tournamentData.teams.forEach((team, index) => {
+                const teamSelect = document.createElement('div');
+                teamSelect.className = 'team-select';
+                teamSelect.setAttribute('data-team-id', team.id);
+                teamSelect.innerHTML = `
+                    <div class="team-select-icon">T${team.id}</div>
+                    <div>
+                        <div style="font-weight: bold;">${team.name}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">${team.players.length} players</div>
+                    </div>
+                `;
+                
+                teamsSelection.appendChild(teamSelect);
+                
+                const option = document.createElement('option');
+                option.value = team.id;
+                option.textContent = team.name;
+                tossWinnerSelect.appendChild(option);
+            });
+            
+            if (tournamentData.teams.length >= 2) {
+                setTimeout(() => {
+                    const teamSelects = document.querySelectorAll('.team-select');
+                    if (teamSelects.length >= 2) {
+                        teamSelects[0].classList.add('selected');
+                        teamSelects[1].classList.add('selected');
+                        tossWinnerSelect.innerHTML = '';
+                        [...document.querySelectorAll('.team-select.selected')].forEach(teamElement => {
+                             const teamId = parseInt(teamElement.getAttribute('data-team-id'));
+                             const team = tournamentData.teams.find(t => t.id === teamId);
+                             const option = document.createElement('option');
+                             option.value = team.id;
+                             option.textContent = team.name;
+                             tossWinnerSelect.appendChild(option);
+                        });
+                        updateMatchPreview();
+                    }
+                }, 100);
+            }
+        }
+
+        function updateMatchPreview() {
+            const selectedTeams = document.querySelectorAll('.team-select.selected');
+            
+            if (selectedTeams.length !== 2) {
+                document.getElementById('preview-team1').textContent = 'T?';
+                document.getElementById('preview-team1-name').textContent = 'Team 1';
+                document.getElementById('preview-team2').textContent = 'T?';
+                document.getElementById('preview-team2-name').textContent = 'Team 2';
+                document.getElementById('preview-toss').textContent = 'Select 2 teams and decide toss';
+                return;
+            }
+            
+            const team1Id = parseInt(selectedTeams[0].getAttribute('data-team-id'));
+            const team2Id = parseInt(selectedTeams[1].getAttribute('data-team-id'));
+            
+            const team1 = tournamentData.teams.find(t => t.id === team1Id);
+            const team2 = tournamentData.teams.find(t => t.id === team2Id);
+            
+            if (!team1 || !team2) return;
+            
+            document.getElementById('preview-team1').textContent = `T${team1.id}`;
+            document.getElementById('preview-team1-name').textContent = team1.name;
+            document.getElementById('preview-team2').textContent = `T${team2.id}`;
+            document.getElementById('preview-team2-name').textContent = team2.name;
+            
+            const tossWinnerSelect = document.getElementById('toss-winner');
+            const tossWinnerId = parseInt(tossWinnerSelect.value);
+            const tossDecision = document.getElementById('toss-decision').value;
+            const tossWinner = tournamentData.teams.find(t => t.id === tossWinnerId);
+            
+            if (tossWinner) {
+                let tossText = '';
+                
+                switch(tournamentData.sport) {
+                    case 'cricket':
+                        tossText = `${tossWinner.name} won toss and chose to ${tossDecision === 'bat' ? 'bat first' : 'bowl first'}`;
+                        break;
+                    case 'football':
+                        tossText = `${tossWinner.name} won coin toss and chose to ${tossDecision === 'kickoff' ? 'kick off' : 'choose side'}`;
+                        break;
+                    case 'custom':
+                        let decisionText = '';
+                        if (tossDecision === 'start') decisionText = `start the ${tournamentData.sportSpecific.durationUnit.toLowerCase()}`;
+                        else if (tossDecision === 'receive') decisionText = 'receive';
+                        else decisionText = 'choose side';
+                        tossText = `${tossWinner.name} won the choice and chose to ${decisionText}`;
+                        break;
+                }
+                
+                document.getElementById('preview-toss').textContent = tossText;
+            } else {
+                 document.getElementById('preview-toss').textContent = 'Select toss winner';
+            }
+            
+            let formatText = '';
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    formatText = `${tournamentData.sportSpecific.oversPerInnings} overs per innings`;
+                    break;
+                case 'football':
+                    formatText = `${tournamentData.sportSpecific.matchDuration} minute match`;
+                    break;
+                case 'custom':
+                    formatText = `Scoring: ${tournamentData.sportSpecific.scoringUnit} | Duration: ${tournamentData.sportSpecific.durationUnit}`;
+                    break;
+            }
+            
+            document.getElementById('preview-format-value').textContent = formatText;
+        }
+
+        function setupMatch() {
+            const selectedTeams = document.querySelectorAll('.team-select.selected');
+            if (selectedTeams.length !== 2) {
+                alert('Please select two teams for the match');
+                return false;
+            }
+            
+            const team1Id = parseInt(selectedTeams[0].getAttribute('data-team-id'));
+            const team2Id = parseInt(selectedTeams[1].getAttribute('data-team-id'));
+            
+            const team1 = tournamentData.teams.find(t => t.id === team1Id);
+            const team2 = tournamentData.teams.find(t => t.id === team2Id);
+            
+            currentMatchState.team1 = team1;
+            currentMatchState.team2 = team2;
+            currentMatchState.innings = 1;
+            currentMatchState.isMatchStarted = true;
+            currentMatchState.actionHistory = [];
+            currentMatchState.team1Score = null;
+            currentMatchState.team2Score = null;
+            
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    const tossWinnerId = parseInt(document.getElementById('toss-winner').value);
+                    const tossDecision = document.getElementById('toss-decision').value;
+                    
+                    let battingTeam, bowlingTeam;
+                    
+                    if (tossDecision === 'bat') {
+                        battingTeam = tournamentData.teams.find(t => t.id === tossWinnerId);
+                        bowlingTeam = battingTeam.id === team1.id ? team2 : team1;
+                    } else {
+                        bowlingTeam = tournamentData.teams.find(t => t.id === tossWinnerId);
+                        battingTeam = bowlingTeam.id === team1.id ? team2 : team1;
+                    }
+                    
+                    cricketMatchState = {
+                        battingTeam: battingTeam,
+                        bowlingTeam: bowlingTeam,
+                        currentOver: 0,
+                        ballsInOver: 0,
+                        totalRuns: 0,
+                        wickets: 0,
+                        extras: 0,
+                        overs: [],
+                        currentOverBalls: [],
+                        isFirstInningsComplete: false,
+                        target: 0,
+                        legalBallsThisOver: 0,
+                        batsmen: [], 
+                        bowler: null, 
+                        allPlayersStats: {}, 
+                        fallOfWickets: [] 
+                    };
+                    break;
+                case 'custom':
+                     customMatchState = {
+                        team1Score: 0,
+                        team2Score: 0,
+                        durationUnit: tournamentData.sportSpecific.durationUnit,
+                        currentDuration: 0,
+                        scoringUnit: tournamentData.sportSpecific.scoringUnit,
+                        events: []
+                    };
+                    break;
+            }
+            
+            return true;
+        }
+
+        function startMatch() {
+            document.getElementById('team1-name').textContent = currentMatchState.team1.name;
+            document.getElementById('team2-name').textContent = currentMatchState.team2.name;
+            document.getElementById('team1-logo').textContent = `T${currentMatchState.team1.id}`;
+            document.getElementById('team2-logo').textContent = `T${currentMatchState.team2.id}`;
+            
+            showSportSpecificUI();
+            
+            switch(tournamentData.sport) {
+                case 'cricket':
+                    document.getElementById('innings-status').textContent = `1st Innings`;
+                    document.getElementById('batting-team-name').textContent = cricketMatchState.battingTeam.name;
+                    initializeCricketDisplay();
+                    break;
+                case 'custom':
+                    updateCustomDisplay();
+                    break;
+            }
+            
+            showNotification(`${tournamentData.sport.charAt(0).toUpperCase() + tournamentData.sport.slice(1)} match started!`, 'success');
+        }
+
+        function showSportSpecificUI() {
+            document.querySelectorAll('.sport-specific-controls').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.scorecard-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.getElementById(`${tournamentData.sport}-scoring-controls`).style.display = 'block';
+            document.getElementById(`${tournamentData.sport}-scorecard`).style.display = 'flex';
+            
+            const endInningsBtn = document.getElementById('end-innings-btn');
+            if (endInningsBtn) {
+                if (tournamentData.sport === 'cricket') {
+                    endInningsBtn.style.display = 'inline-flex';
+                } else {
+                    endInningsBtn.style.display = 'none';
+                }
+            }
+            
+            if (tournamentData.sport === 'custom') {
+                document.getElementById('custom-controls-title').textContent = `${tournamentData.sportSpecific.scoringUnit} Controls`;
+                document.getElementById('custom-match-title').textContent = `${tournamentData.name} Scoreboard`;
+                
+                document.querySelectorAll('#custom-scoring-controls span').forEach(span => {
+                    const isPlural = span.id.includes('s');
+                    span.textContent = isPlural ? tournamentData.sportSpecific.scoringUnit + (tournamentData.sportSpecific.scoringUnit.endsWith('s') ? '' : 's') : tournamentData.sportSpecific.scoringUnit;
+                });
+            }
+        }
+
+        // CRICKET FUNCTIONS
+        
         function addCricketRun(runs) {
             const striker = cricketMatchState.batsmen.find(b => b.isStriker);
             const bowler = cricketMatchState.bowler;
@@ -1833,21 +2388,11 @@
                 striker.balls += 1;
                 if (runs === 4) striker.fours += 1;
                 if (runs === 6) striker.sixes += 1;
-                // Update global stats
-                if (cricketMatchState.allPlayersStats[striker.id]) {
-                    cricketMatchState.allPlayersStats[striker.id].runs = striker.runs;
-                    cricketMatchState.allPlayersStats[striker.id].balls = striker.balls;
-                }
             }
             
             if (bowler) {
                 bowler.balls += 1;
                 bowler.runs += runs;
-                // Update global stats
-                if (cricketMatchState.allPlayersStats[bowler.id]) {
-                    cricketMatchState.allPlayersStats[bowler.id].runsConceded = bowler.runs;
-                    cricketMatchState.allPlayersStats[bowler.id].ballsBowled = bowler.balls;
-                }
             }
 
             cricketMatchState.totalRuns += runs;
@@ -1871,7 +2416,6 @@
             }
         }
         
-        // Add wicket in cricket (updates batsman/bowler stats and FOW)
         function addCricketWicket(batsmanOut, dismissalType, fielder, bowlerCredit) {
             const striker = batsmanOut;
             
@@ -1882,18 +2426,11 @@
                 cricketMatchState.bowler.balls += 1;
                 if (bowlerCredit !== 'N/A' && cricketMatchState.bowler.id) {
                     cricketMatchState.bowler.wickets += 1;
-                    // Update global bowler stats
-                    if (cricketMatchState.allPlayersStats[cricketMatchState.bowler.id]) {
-                         cricketMatchState.allPlayersStats[cricketMatchState.bowler.id].wickets += 1;
-                         cricketMatchState.allPlayersStats[cricketMatchState.bowler.id].ballsBowled = cricketMatchState.bowler.balls;
-                    }
                 }
             }
             
-            // The batsman out needs one more ball added to their count
             striker.balls += 1; 
 
-            // Record FOW
             cricketMatchState.fallOfWickets.push({
                 score: cricketMatchState.totalRuns,
                 over: (cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 10)).toFixed(1),
@@ -1901,25 +2438,32 @@
                 dismissal: dismissalType,
                 bowler: bowlerCredit,
                 fielder: fielder,
-                dismissalType: dismissalType // Store type
+                dismissalType: dismissalType 
             });
             
-            // Remove current striker/batsman from the crease
             cricketMatchState.batsmen = cricketMatchState.batsmen.filter(b => b.id !== striker.id);
             
-            // Bring in new batsman (simple: next player in team who hasn't batted)
-            const nextPlayer = cricketMatchState.battingTeam.players.find(p => 
-                !cricketMatchState.allPlayersStats[p.id]
+            const nextPlayerInTeam = cricketMatchState.battingTeam.players.find(p => 
+                !cricketMatchState.allPlayersStats[p.id] 
             );
 
-            if (nextPlayer) {
-                const newBatsman = initializePlayerStats(nextPlayer.id, nextPlayer.name, true);
+            if (nextPlayerInTeam) {
+                const newBatsman = initializePlayerStats(nextPlayerInTeam.id, nextPlayerInTeam.name);
                 
-                // If the player out was the non-striker (Run Out), the old striker stays on strike.
-                const stayOnStrike = newBatsman.id !== striker.id;
+                const oldStriker = cricketMatchState.batsmen.find(b => b.isStriker);
                 
-                cricketMatchState.batsmen.forEach(b => b.isStriker = stayOnStrike);
-                newBatsman.isStriker = !stayOnStrike;
+                if (dismissalType.toLowerCase().includes('run out')) {
+                    // Strike goes to the end the run out occurred
+                    // Simplified: if run out occurred, new player takes non-striker unless runout was at striker's end
+                    // For now, let the new batsman take strike if the over is not finished.
+                    newBatsman.isStriker = true;
+                    if (oldStriker) oldStriker.isStriker = false;
+                } else {
+                    // Standard Wicket: New batsman takes non-striker
+                    newBatsman.isStriker = false;
+                    if (oldStriker) oldStriker.isStriker = true;
+                }
+
                 cricketMatchState.batsmen.push(newBatsman);
             }
 
@@ -1938,7 +2482,6 @@
             }
         }
         
-        // Add extra in cricket (updates bowler stats for runs conceded)
         function addCricketExtra(extraType, extraRuns = 0) {
             let runs = extraRuns;
             let symbol = extraType;
@@ -1972,13 +2515,6 @@
             cricketMatchState.extras += runs;
             cricketMatchState.totalRuns += runs;
             
-            // Update global bowler stats
-            if (bowler && cricketMatchState.allPlayersStats[bowler.id]) {
-                cricketMatchState.allPlayersStats[bowler.id].runsConceded = bowler.runs;
-                if (isLegalBall) cricketMatchState.allPlayersStats[bowler.id].ballsBowled = bowler.balls;
-            }
-
-            // Switch strike if runs are odd (only for Byes/Legbyes/Noball runs)
             if (runs % 2 !== 0 && (extraType === 'bye' || extraType === 'legbye' || extraType === 'noball')) {
                 switchStrike();
             }
@@ -1999,12 +2535,10 @@
             }
         }
 
-        // Switches strike between the two current batsmen
         function switchStrike() {
             cricketMatchState.batsmen.forEach(b => b.isStriker = !b.isStriker);
         }
 
-        // Logic executed when an over ends (ball 6 or a wicket on the 6th ball)
         function endOver() {
             cricketMatchState.overs.push([...cricketMatchState.currentOverBalls]);
             cricketMatchState.currentOver++;
@@ -2015,32 +2549,32 @@
             // Switch strike for the start of the next over
             switchStrike();
 
-            // Clear bowler (requires new prompt or auto-rotation in a real app)
+            // Clear bowler (prompt for new bowler next action)
             cricketMatchState.bowler = null; 
         }
 
-        // Initialize player stats structure
         function initializePlayerStats(playerId, playerName, isStriker = false) {
-             const playerStat = {
-                id: playerId,
-                name: playerName,
-                runs: 0,
-                balls: 0,
-                wickets: 0,
-                fours: 0,
-                sixes: 0,
-                runsConceded: 0,
-                ballsBowled: 0,
-                isStriker: isStriker,
-                innings: []
-            };
+             let playerStat = cricketMatchState.allPlayersStats[playerId];
 
-            // Store in global stats structure
-            cricketMatchState.allPlayersStats[playerId] = playerStat;
-            return playerStat;
+             if (!playerStat) {
+                playerStat = {
+                    id: playerId,
+                    name: playerName,
+                    runs: 0,
+                    balls: 0,
+                    wickets: 0,
+                    fours: 0,
+                    sixes: 0,
+                    runsConceded: 0,
+                    ballsBowled: 0,
+                    isStriker: isStriker,
+                    innings: []
+                };
+                cricketMatchState.allPlayersStats[playerId] = playerStat;
+             }
+             return playerStat;
         }
-        
-        // Undo last cricket action
+
         function undoLastCricketAction() {
             if (currentMatchState.actionHistory.length === 0) {
                 showNotification('No actions to undo', 'warning');
@@ -2055,13 +2589,6 @@
                 currentMatchState.innings = lastAction.matchState.innings;
                 currentMatchState.actionHistory = lastAction.matchState.actionHistory; 
                 
-                // Re-establish team references
-                if (cricketMatchState.battingTeam && cricketMatchState.battingTeam.id !== currentMatchState.team1.id) {
-                    const temp = cricketMatchState.battingTeam;
-                    cricketMatchState.battingTeam = currentMatchState.team1;
-                    cricketMatchState.bowlingTeam = temp;
-                }
-                
                 updateCricketDisplay();
                 showNotification('Undid last action', 'success');
             } else {
@@ -2069,7 +2596,6 @@
             }
         }
         
-        // Update cricket display (MODIFIED for new UI elements)
         function updateCricketDisplay() {
             const overDisplay = cricketMatchState.currentOver + 
                 (cricketMatchState.ballsInOver > 0 ? `.${cricketMatchState.ballsInOver}` : '');
@@ -2152,7 +2678,7 @@
             if (cricketMatchState.bowler) {
                 const b = cricketMatchState.bowler;
                 const overs = Math.floor(b.balls / 6) + '.' + (b.balls % 6);
-                const runRate = b.balls > 0 ? (b.runs / (b.balls / 6)).toFixed(2) : '0.00';
+                const runRate = b.balls > 0 ? (b.runsConceded / (b.balls / 6)).toFixed(2) : '0.00';
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -2162,13 +2688,12 @@
                            ${overs} Overs (ER: ${runRate})
                         </div>
                     </td>
-                    <td style="text-align: center; color: var(--text-secondary);">${b.runs}</td>
+                    <td style="text-align: center; color: var(--text-secondary);">${b.runsConceded}</td>
                     <td style="text-align: center; font-weight: bold; color: var(--danger);">${b.wickets}</td>
                 `;
                 bowlerBody.appendChild(row);
             } else {
                  bowlerBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Select New Bowler</td></tr>`;
-                 // In a real app, this should prompt the user to select the next bowler
             }
         }
 
@@ -2203,15 +2728,14 @@
             });
         }
         
-        // Initialize cricket display
         function initializeCricketDisplay() {
-            
             // NEW: Initialize current batsman and bowler
             if (cricketMatchState.battingTeam.players.length >= 2) {
-                // Initialize all players' global stats first
-                cricketMatchState.battingTeam.players.forEach(p => initializePlayerStats(p.id, p.name, false));
-                
-                // Set the two starting batsmen
+                // Initialize all players' global stats
+                const allPlayers = [...cricketMatchState.battingTeam.players, ...cricketMatchState.bowlingTeam.players];
+                allPlayers.forEach(p => initializePlayerStats(p.id, p.name, false));
+
+                // Set the two starting batsmen (using the stats object references)
                 cricketMatchState.batsmen = [
                     cricketMatchState.allPlayersStats[cricketMatchState.battingTeam.players[0].id],
                     cricketMatchState.allPlayersStats[cricketMatchState.battingTeam.players[1].id]
@@ -2220,7 +2744,7 @@
                 cricketMatchState.batsmen[1].isStriker = false;
             }
             
-            // Simple initialization of bowler (Player 11)
+            // Simple initialization of bowler (Player 11 of bowling team)
             if (cricketMatchState.bowlingTeam.players.length >= 11) {
                 cricketMatchState.bowler = initializePlayerStats(cricketMatchState.bowlingTeam.players[10].id, cricketMatchState.bowlingTeam.players[10].name);
             }
@@ -2240,12 +2764,58 @@
             updateCricketDisplay();
         }
         
-        // End first innings in cricket
+        function updateOversDisplay() {
+            for (let i = 0; i < tournamentData.sportSpecific.oversPerInnings; i++) {
+                const overCell = document.getElementById(`over-${i+1}`);
+                
+                if (i < cricketMatchState.overs.length) {
+                    const overRuns = cricketMatchState.overs[i].reduce((total, ball) => {
+                        if (ball.type === 'run') return total + ball.value;
+                        if (ball.type === 'extra') return total + ball.runs;
+                        return total;
+                    }, 0);
+                    
+                    overCell.textContent = overRuns;
+                    overCell.classList.remove('current');
+                } else if (i === cricketMatchState.currentOver) {
+                    overCell.classList.add('current');
+                } else {
+                    overCell.classList.remove('current');
+                }
+            }
+        }
+        
+        function updateCurrentOverBalls() {
+            const currentOverBallsDiv = document.getElementById('current-over-balls');
+            currentOverBallsDiv.innerHTML = '';
+            
+            cricketMatchState.currentOverBalls.forEach((ball, index) => {
+                const ballDiv = document.createElement('div');
+                ballDiv.className = 'ball';
+                
+                if (ball.type === 'run') {
+                    ballDiv.classList.add('run');
+                    ballDiv.textContent = ball.value === 0 ? '•' : ball.value;
+                } else if (ball.type === 'wicket') {
+                    ballDiv.classList.add('wicket');
+                    ballDiv.textContent = 'W';
+                } else if (ball.type === 'extra') {
+                    if (ball.value === 'Wd') ballDiv.classList.add('wide');
+                    else if (ball.value.includes('Nb')) ballDiv.classList.add('noball-run');
+                    else if (ball.value === 'Nb') ballDiv.classList.add('noball');
+                    else if (ball.value === 'B') ballDiv.classList.add('bye');
+                    else if (ball.value === 'Lb') ballDiv.classList.add('legbye');
+                    ballDiv.textContent = ball.value;
+                }
+                
+                currentOverBallsDiv.appendChild(ballDiv);
+            });
+        }
+        
         function endFirstInnings() {
             cricketMatchState.isFirstInningsComplete = true;
             cricketMatchState.target = cricketMatchState.totalRuns + 1;
             
-            // Store final score of first innings team
             const firstInningsTeamId = cricketMatchState.battingTeam.id;
             const finalScore = {
                 runs: cricketMatchState.totalRuns,
@@ -2253,15 +2823,12 @@
                 overs: cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6)
             };
             
-            // Swap batting and bowling teams
             const temp = cricketMatchState.battingTeam;
             cricketMatchState.battingTeam = cricketMatchState.bowlingTeam;
             cricketMatchState.bowlingTeam = temp;
             
-            // Reset for second innings
             currentMatchState.innings = 2;
             
-            // Persist the player stats, but reset match state variables
             const persistedStats = cricketMatchState.allPlayersStats;
 
             cricketMatchState = {
@@ -2280,12 +2847,21 @@
                 
                 batsmen: [], 
                 bowler: null,
-                allPlayersStats: persistedStats, // Keep the old stats
+                allPlayersStats: persistedStats,
                 fallOfWickets: [] 
             };
             
-            // Setup new batsmen/bowler for the second innings
+            // Setup new batsmen/bowler for the second innings (reset runs/balls on stats objects)
              if (cricketMatchState.battingTeam.players.length >= 2) {
+                // Find and reset the player objects for the new batting team
+                 cricketMatchState.battingTeam.players.forEach(p => {
+                    if (cricketMatchState.allPlayersStats[p.id]) {
+                        cricketMatchState.allPlayersStats[p.id].runs = 0;
+                        cricketMatchState.allPlayersStats[p.id].balls = 0;
+                        cricketMatchState.allPlayersStats[p.id].fours = 0;
+                        cricketMatchState.allPlayersStats[p.id].sixes = 0;
+                    }
+                 });
                 cricketMatchState.batsmen = [
                     cricketMatchState.allPlayersStats[cricketMatchState.battingTeam.players[0].id],
                     cricketMatchState.allPlayersStats[cricketMatchState.battingTeam.players[1].id]
@@ -2295,35 +2871,93 @@
             }
             
             if (cricketMatchState.bowlingTeam.players.length >= 11) {
-                cricketMatchState.bowler = initializePlayerStats(cricketMatchState.bowlingTeam.players[10].id, cricketMatchState.bowlingTeam.players[10].name);
+                cricketMatchState.bowler = cricketMatchState.allPlayersStats[cricketMatchState.bowlingTeam.players[10].id];
+                cricketMatchState.bowler.runsConceded = 0;
+                cricketMatchState.bowler.wickets = 0;
+                cricketMatchState.bowler.ballsBowled = 0;
             }
 
             currentMatchState.actionHistory = []; 
             
-            // Update UI
             document.getElementById('innings-status').textContent = `2nd Innings`;
             document.getElementById('batting-team-name').textContent = cricketMatchState.battingTeam.name;
             
-            // Reset wickets and overs display
             initializeCricketDisplay();
             
-            // Update the score lines for end match purposes
             if (currentMatchState.team1.id === firstInningsTeamId) {
                  currentMatchState.team1Score = finalScore;
             } else {
                  currentMatchState.team2Score = finalScore;
             }
 
-            
             showNotification(`First innings complete! ${cricketMatchState.bowlingTeam.name} needs ${cricketMatchState.target} runs to win.`, 'success');
         }
+
+        // CUSTOM SPORT FUNCTIONS (NEW)
         
-        // End match and declare winner (MODIFIED to calculate top players)
+        function addCustomScore(team, score) {
+            if (team === 1) {
+                customMatchState.team1Score += score;
+            } else {
+                customMatchState.team2Score += score;
+            }
+            addCustomEvent(`${score} ${tournamentData.sportSpecific.scoringUnit} added to ${currentMatchState[`team${team}`].name}`, team);
+        }
+
+        function addCustomEvent(description, team = 0) {
+            customMatchState.events.unshift({
+                desc: description,
+                team: team,
+                timestamp: new Date().getTime()
+            });
+        }
+
+        function undoLastCustomAction() {
+            if (currentMatchState.actionHistory.length === 0) {
+                showNotification('No actions to undo', 'warning');
+                return;
+            }
+
+            const lastAction = currentMatchState.actionHistory.pop();
+            
+            if (lastAction.type === 'custom') {
+                customMatchState = lastAction.customState;
+                currentMatchState.actionHistory = lastAction.matchState.actionHistory; 
+                updateCustomDisplay();
+                showNotification('Undid last action', 'success');
+            } else {
+                showNotification('Cannot undo this action', 'warning');
+            }
+        }
+        
+        function updateCustomDisplay() {
+            document.getElementById('custom-team1-name').textContent = currentMatchState.team1.name;
+            document.getElementById('custom-team2-name').textContent = currentMatchState.team2.name;
+            document.getElementById('custom-team1-score').textContent = customMatchState.team1Score;
+            document.getElementById('custom-team2-score').textContent = customMatchState.team2Score;
+            document.getElementById('custom-duration-display').textContent = `Duration: ${customMatchState.currentDuration} ${customMatchState.durationUnit}`;
+            document.getElementById('innings-status').textContent = tournamentData.sportSpecific.scoringUnit;
+            
+            // Update action history for custom events
+            const customEventsDiv = document.getElementById('custom-events');
+            customEventsDiv.innerHTML = '';
+            
+            customMatchState.events.slice(0, 5).forEach(event => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.textContent = `${event.desc} (${new Date(event.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`;
+                customEventsDiv.appendChild(historyItem);
+            });
+            
+            // Update compact header scores
+            document.getElementById('compact-team1-score').textContent = customMatchState.team1Score;
+            document.getElementById('compact-team2-score').textContent = customMatchState.team2Score;
+        }
+
         function endMatch() {
             let winner = null, resultSummary;
             
             if (tournamentData.sport === 'cricket') {
-                // Final score for the team that batted last (currently in cricketMatchState)
                 const lastTeamId = cricketMatchState.battingTeam.id;
                 const finalScoreLast = {
                     runs: cricketMatchState.totalRuns,
@@ -2341,21 +2975,16 @@
                 let allBatters = {};
                 let allBowlers = {};
                 
-                // Aggregate all player stats
                 Object.values(cricketMatchState.allPlayersStats).forEach(p => {
                     if (p.runs > 0) allBatters[p.name] = (allBatters[p.name] || 0) + p.runs;
                     if (p.wickets > 0) allBowlers[p.name] = (allBowlers[p.name] || 0) + p.wickets;
                 });
                 
-                // Find Highest Run Scorer
                 const topScorer = Object.keys(allBatters).reduce((a, b) => allBatters[a] > allBatters[b] ? a : b, null);
                 const topScorerRuns = topScorer ? allBatters[topScorer] : 0;
-
-                // Find Highest Wicket Taker
                 const topWicketTaker = Object.keys(allBowlers).reduce((a, b) => allBowlers[a] > allBowlers[b] ? a : b, null);
                 const topWicketTakerWickets = topWicketTaker ? allBowlers[topWicketTaker] : 0;
                 
-                // Update final result summary based on scores
                 const s1 = currentMatchState.team1Score;
                 const s2 = currentMatchState.team2Score;
                 
@@ -2374,7 +3003,6 @@
                     winner = null;
                 }
 
-                // Update final result display
                 document.getElementById('highest-scorer').textContent = `${topScorer || 'N/A'} (${topScorerRuns} runs)`;
                 document.getElementById('highest-wicket-taker').textContent = `${topWicketTaker || 'N/A'} (${topWicketTakerWickets} wickets)`;
                 
@@ -2395,14 +3023,12 @@
                 document.getElementById('highest-scorer').textContent = `N/A`;
                 document.getElementById('highest-wicket-taker').textContent = `N/A`;
             } else {
-                // Fallback for Football
                 winner = currentMatchState.team1;
                 resultSummary = `${winner.name} won the match`;
                 document.getElementById('highest-scorer').textContent = `N/A`;
                 document.getElementById('highest-wicket-taker').textContent = `N/A`;
             }
 
-            // Update winner announcement
             if (winner) {
                 document.getElementById('match-winner').textContent = winner.name;
             } else {
@@ -2411,7 +3037,6 @@
             
             document.getElementById('match-result-summary').textContent = resultSummary;
             
-            // Update result details based on sport
             const s1 = currentMatchState.team1Score || {runs: 0, wickets: 0, overs: 0};
             const s2 = currentMatchState.team2Score || {runs: 0, wickets: 0, overs: 0};
             
@@ -2432,13 +3057,53 @@
 
             document.getElementById('man-of-match').textContent = 'N/A';
             
-            // Go to winner announcement
             showSection('winner-announcement');
             document.querySelector('.nav-item[data-section="winner-announcement"]').classList.add('active');
         }
         
-        // ... (rest of the functions: updateOversDisplay, updateCurrentOverBalls, custom functions, etc.) ...
-        
+        function resetMatchState() {
+            currentMatchState = {
+                sport: tournamentData.sport,
+                team1: null,
+                team2: null,
+                innings: 1,
+                isMatchStarted: false,
+                actionHistory: [],
+                team1Score: null,
+                team2Score: null
+            };
+            
+            cricketMatchState = {
+                battingTeam: null,
+                bowlingTeam: null,
+                currentOver: 0,
+                ballsInOver: 0,
+                totalRuns: 0,
+                wickets: 0,
+                extras: 0,
+                overs: [],
+                currentOverBalls: [],
+                isFirstInningsComplete: false,
+                target: 0,
+                legalBallsThisOver: 0,
+                batsmen: [], 
+                bowler: null, 
+                allPlayersStats: {}, 
+                fallOfWickets: [] 
+            };
+            
+            customMatchState = {
+                team1Score: 0,
+                team2Score: 0,
+                durationUnit: 'Minutes',
+                currentDuration: 0,
+                scoringUnit: 'Points',
+                events: []
+            };
+            
+            setupMatchConfiguration();
+        }
+
         // Initialize the app when the page loads
         document.addEventListener('DOMContentLoaded', function() {
             console.log("DOM loaded, initializing app...");
