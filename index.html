@@ -330,25 +330,10 @@
         .football-controls .control-btn {
             background-color: rgba(33, 150, 243, 0.1);
         }
-        
-        /* Basketball specific */
-        .basketball-controls .control-btn {
+
+        /* Custom specific */
+        .custom-controls .control-btn {
             background-color: rgba(255, 152, 0, 0.1);
-        }
-        
-        /* Tennis specific */
-        .tennis-controls .control-btn {
-            background-color: rgba(156, 39, 176, 0.1);
-        }
-        
-        /* Hockey specific */
-        .hockey-controls .control-btn {
-            background-color: rgba(0, 188, 212, 0.1);
-        }
-        
-        /* Volleyball specific */
-        .volleyball-controls .control-btn {
-            background-color: rgba(76, 175, 80, 0.1);
         }
         
         .btn {
@@ -581,16 +566,18 @@
             flex: 1;
         }
 
+        /* Cricket Specific: Make team logos and names smaller */
         .compact-match-header .team-logo {
-            width: 50px; /* Smaller logo for mobile */
-            height: 50px;
-            font-size: 1.2rem;
-            margin: 0 auto 5px; /* Reduced margin */
+            width: 40px; 
+            height: 40px;
+            font-size: 1rem;
+            margin: 0 auto 5px; 
             border: 2px solid var(--accent-green);
+            border-radius: 50%; /* Ensure circular logo */
         }
 
         .compact-match-header h3 {
-            font-size: 1rem; /* Smaller font for team name */
+            font-size: 0.9rem; 
             margin: 0;
             white-space: nowrap;
             overflow: hidden;
@@ -1265,33 +1252,12 @@
                     </div>
                     <h3 class="sport-name">Football</h3>
                 </div>
-                
-                <div class="sport-card" data-sport="basketball">
+
+                <div class="sport-card" data-sport="custom">
                     <div class="sport-icon">
-                        <i class="fas fa-basketball-ball"></i>
+                        <i class="fas fa-magic"></i>
                     </div>
-                    <h3 class="sport-name">Basketball</h3>
-                </div>
-                
-                <div class="sport-card" data-sport="tennis">
-                    <div class="sport-icon">
-                        <i class="fas fa-table-tennis"></i>
-                    </div>
-                    <h3 class="sport-name">Tennis</h3>
-                </div>
-                
-                <div class="sport-card" data-sport="hockey">
-                    <div class="sport-icon">
-                        <i class="fas fa-hockey-puck"></i>
-                    </div>
-                    <h3 class="sport-name">Hockey</h3>
-                </div>
-                
-                <div class="sport-card" data-sport="volleyball">
-                    <div class="sport-icon">
-                        <i class="fas fa-volleyball-ball"></i>
-                    </div>
-                    <h3 class="sport-name">Volleyball</h3>
+                    <h3 class="sport-name">Custom Sport</h3>
                 </div>
             </div>
             
@@ -1365,74 +1331,26 @@
                         </div>
                     </div>
                     
-                    <div class="sport-specific-controls basketball-controls" id="basketball-controls">
+                    <div class="sport-specific-controls custom-controls" id="custom-controls">
                         <div class="form-group">
-                            <label class="form-label">Quarter Duration (Minutes)</label>
-                            <select class="form-control form-control-sm" id="basketball-duration">
-                                <option value="10" selected>10 mins (NBA)</option>
-                                <option value="12">12 mins (FIBA)</option>
-                                <option value="8">8 mins (College)</option>
-                            </select>
+                            <label class="form-label">Custom Sport Name</label>
+                            <input type="text" class="form-control" id="custom-sport-name" placeholder="e.g., Ultimate Frisbee" value="Ultimate Frisbee">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Players per Team</label>
+                            <input type="number" class="form-control form-control-sm" id="custom-players-per-team" min="1" max="20" value="7">
+                            <p class="form-hint" style="color: var(--text-muted); margin-top: 5px;">Enter players per team (1-20)</p>
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Players per Team</label>
-                            <input type="number" class="form-control form-control-sm" id="basketball-players" min="5" max="12" value="12">
-                            <p class="form-hint" style="color: var(--text-muted); margin-top: 5px;">Enter players per team (5-12)</p>
+                            <label class="form-label">Scoring Unit (e.g., Points, Goals, Sets)</label>
+                            <input type="text" class="form-control form-control-sm" id="custom-scoring-unit" placeholder="Points" value="Points">
                         </div>
-                    </div>
-                    
-                    <div class="sport-specific-controls tennis-controls" id="tennis-controls">
-                        <div class="form-group">
-                            <label class="form-label">Match Format</label>
-                            <select class="form-control form-control-sm" id="tennis-format">
-                                <option value="3" selected>Best of 3 Sets</option>
-                                <option value="5">Best of 5 Sets</option>
-                                <option value="1">Single Set</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Players per Team</label>
-                            <select class="form-control form-control-sm" id="tennis-players">
-                                <option value="1" selected>Singles (1 player)</option>
-                                <option value="2">Doubles (2 players)</option>
-                                <option value="4">Mixed Doubles (2 players)</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="sport-specific-controls hockey-controls" id="hockey-controls">
-                        <div class="form-group">
-                            <label class="form-label">Period Duration (Minutes)</label>
-                            <select class="form-control form-control-sm" id="hockey-duration">
-                                <option value="15" selected>15 mins (Field Hockey)</option>
-                                <option value="20">20 mins (Ice Hockey)</option>
-                                <option value="10">10 mins (Quick Match)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Players per Team</label>
-                            <input type="number" class="form-control form-control-sm" id="hockey-players" min="6" max="11" value="11">
-                            <p class="form-hint" style="color: var(--text-muted); margin-top: 5px;">Enter players per team (6-11)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="sport-specific-controls volleyball-controls" id="volleyball-controls">
-                        <div class="form-group">
-                            <label class="form-label">Sets to Win</label>
-                            <select class="form-control form-control-sm" id="volleyball-sets">
-                                <option value="3" selected>Best of 3 Sets</option>
-                                <option value="5">Best of 5 Sets</option>
-                                <option value="1">Single Set</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Players per Team</label>
-                            <input type="number" class="form-control form-control-sm" id="volleyball-players" min="6" max="12" value="12">
-                            <p class="form-hint" style="color: var(--text-muted); margin-top: 5px;">Enter players per team (6-12)</p>
+
+                         <div class="form-group">
+                            <label class="form-label">Match Duration Unit (e.g., Time in mins, Sets, Rounds)</label>
+                            <input type="text" class="form-control form-control-sm" id="custom-duration-unit" placeholder="Minutes" value="Minutes">
                         </div>
                     </div>
                     
@@ -1664,50 +1582,38 @@
                 <div id="football-match-stats-hidden" style="display:none;">
                     </div>
             </div>
-            
-            <div class="scorecard-container basketball-scorecard" id="basketball-scorecard" style="display: none;">
+
+            <div class="scorecard-container custom-scorecard" id="custom-scorecard" style="display: none;">
                 <div class="scorecard">
                     <div class="scorecard-header">
-                        <h3>Scoreboard</h3>
-                        <span id="basketball-quarter">Q1 00:00</span>
+                        <h3 id="custom-match-title">Custom Scoreboard</h3>
+                        <span id="custom-status">Game Started</span>
                     </div>
                     
                     <div style="margin-top: 20px;">
                         <div style="background-color: var(--secondary-dark); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div style="text-align: center; flex: 1;">
-                                    <div id="basketball-team1-name" style="font-weight: bold; margin-bottom: 5px;">Team A</div>
-                                    <div id="basketball-team1-points" style="font-size: 3rem; color: var(--accent-green);">0</div>
-                                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
-                                        Q1: <span id="basketball-team1-q1">0</span> | 
-                                        Q2: <span id="basketball-team1-q2">0</span> | 
-                                        Q3: <span id="basketball-team1-q3">0</span> | 
-                                        Q4: <span id="basketball-team1-q4">0</span>
-                                    </div>
+                                <div style="text-align: center;">
+                                    <div id="custom-team1-name" style="font-weight: bold; margin-bottom: 5px;">Team A</div>
+                                    <div id="custom-team1-score" style="font-size: 3rem; color: var(--accent-green);">0</div>
                                 </div>
-                                <div style="font-size: 1.5rem; color: var(--text-muted); padding: 0 20px;">:</div>
-                                <div style="text-align: center; flex: 1;">
-                                    <div id="basketball-team2-name" style="font-weight: bold; margin-bottom: 5px;">Team B</div>
-                                    <div id="basketball-team2-points" style="font-size: 3rem; color: var(--accent-green);">0</div>
-                                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
-                                        Q1: <span id="basketball-team2-q1">0</span> | 
-                                        Q2: <span id="basketball-team2-q2">0</span> | 
-                                        Q3: <span id="basketball-team2-q3">0</span> | 
-                                        Q4: <span id="basketball-team2-q4">0</span>
-                                    </div>
+                                <div style="font-size: 1.5rem; color: var(--text-muted);">:</div>
+                                <div style="text-align: center;">
+                                    <div id="custom-team2-name" style="font-weight: bold; margin-bottom: 5px;">Team B</div>
+                                    <div id="custom-team2-score" style="font-size: 3rem; color: var(--accent-green);">0</div>
                                 </div>
                             </div>
+                            <p style="text-align: center; margin-top: 15px;">
+                                <span id="custom-duration-display">Duration: 0 Minutes</span>
+                            </p>
                         </div>
                         
-                        <h4 style="margin-bottom: 10px;">Game Events</h4>
-                        <div class="action-history" id="basketball-events">
+                        <h4 style="margin-bottom: 10px;">Match Events</h4>
+                        <div class="action-history" id="custom-events">
                             <div class="history-item">Game started</div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="basketball-team-stats-hidden" style="display:none;">
-                    </div>
             </div>
             
             <div class="score-controls">
@@ -1721,11 +1627,13 @@
                         <button class="control-btn runs" data-runs="3">3 Runs</button>
                         <button class="control-btn runs" data-runs="4">4 Runs</button>
                         <button class="control-btn runs" data-runs="6">6 Runs</button>
-                        <button class="control-btn wicket" data-wicket="true">Wicket</button>
+                        <button class="control-btn extras" data-extra="noball4">Nb + 4</button>
+                        <button class="control-btn extras" data-extra="noball6">Nb + 6</button>
                         <button class="control-btn extras" data-extra="wide">Wide (+1)</button>
                         <button class="control-btn extras" data-extra="noball">No Ball (+1)</button>
                         <button class="control-btn extras" data-extra="bye">Bye (+1)</button>
                         <button class="control-btn extras" data-extra="legbye">Leg Bye (+1)</button>
+                        <button class="control-btn wicket" data-wicket="true">Wicket</button>
                         <button class="control-btn" id="undo-btn">Undo</button>
                     </div>
                 </div>
@@ -1749,82 +1657,18 @@
                         <button class="control-btn" id="undo-football-btn">Undo</button>
                     </div>
                 </div>
-                
-                <div class="sport-specific-controls basketball-controls" id="basketball-scoring-controls" style="display: none;">
-                    <h3 style="margin-bottom: 20px;">Basketball Scoring Controls</h3>
+
+                <div class="sport-specific-controls custom-controls" id="custom-scoring-controls" style="display: none;">
+                    <h3 style="margin-bottom: 20px;" id="custom-controls-title">Custom Game Controls</h3>
                     
                     <div class="controls-grid">
-                        <button class="control-btn" data-action="2pt-team1">2 Points (Team 1)</button>
-                        <button class="control-btn" data-action="2pt-team2">2 Points (Team 2)</button>
-                        <button class="control-btn" data-action="3pt-team1">3 Points (Team 1)</button>
-                        <button class="control-btn" data-action="3pt-team2">3 Points (Team 2)</button>
-                        <button class="control-btn" data-action="freethrow-team1">Free Throw (Team 1)</button>
-                        <button class="control-btn" data-action="freethrow-team2">Free Throw (Team 2)</button>
-                        <button class="control-btn" data-action="foul-team1-basketball">Foul (Team 1)</button>
-                        <button class="control-btn" data-action="foul-team2-basketball">Foul (Team 2)</button>
-                        <button class="control-btn" data-action="rebound-team1">Rebound (Team 1)</button>
-                        <button class="control-btn" data-action="rebound-team2">Rebound (Team 2)</button>
-                        <button class="control-btn" data-action="assist-team1">Assist (Team 1)</button>
-                        <button class="control-btn" data-action="assist-team2">Assist (Team 2)</button>
-                        <button class="control-btn" data-action="turnover-team1">Turnover (Team 1)</button>
-                        <button class="control-btn" data-action="turnover-team2">Turnover (Team 2)</button>
-                        <button class="control-btn" id="undo-basketball-btn">Undo</button>
-                    </div>
-                </div>
-                
-                <div class="sport-specific-controls tennis-controls" id="tennis-scoring-controls" style="display: none;">
-                    <h3 style="margin-bottom: 20px;">Tennis Scoring Controls</h3>
-                    
-                    <div class="controls-grid">
-                        <button class="control-btn" data-action="point-team1">Point (Team 1)</button>
-                        <button class="control-btn" data-action="point-team2">Point (Team 2)</button>
-                        <button class="control-btn" data-action="ace-team1">Ace (Team 1)</button>
-                        <button class="control-btn" data-action="ace-team2">Ace (Team 2)</button>
-                        <button class="control-btn" data-action="doublefault-team1">Double Fault (Team 1)</button>
-                        <button class="control-btn" data-action="doublefault-team2">Double Fault (Team 2)</button>
-                        <button class="control-btn" data-action="winner-team1">Winner (Team 1)</button>
-                        <button class="control-btn" data-action="winner-team2">Winner (Team 2)</button>
-                        <button class="control-btn" data-action="unforced-error-team1">Unforced Error (Team 1)</button>
-                        <button class="control-btn" data-action="unforced-error-team2">Unforced Error (Team 2)</button>
-                        <button class="control-btn" id="undo-tennis-btn">Undo</button>
-                    </div>
-                </div>
-                
-                <div class="sport-specific-controls hockey-controls" id="hockey-scoring-controls" style="display: none;">
-                    <h3 style="margin-bottom: 20px;">Hockey Scoring Controls</h3>
-                    
-                    <div class="controls-grid">
-                        <button class="control-btn" data-action="goal-team1-hockey">Goal (Team 1)</button>
-                        <button class="control-btn" data-action="goal-team2-hockey">Goal (Team 2)</button>
-                        <button class="control-btn" data-action="penalty-team1">Penalty (Team 1)</button>
-                        <button class="control-btn" data-action="penalty-team2">Penalty (Team 2)</button>
-                        <button class="control-btn" data-action="corner-team1-hockey">Penalty Corner (Team 1)</button>
-                        <button class="control-btn" data-action="corner-team2-hockey">Penalty Corner (Team 2)</button>
-                        <button class="control-btn" data-action="shot-team1">Shot (Team 1)</button>
-                        <button class="control-btn" data-action="shot-team2">Shot (Team 2)</button>
-                        <button class="control-btn" data-action="save-team1">Save (Team 1)</button>
-                        <button class="control-btn" data-action="save-team2">Save (Team 2)</button>
-                        <button class="control-btn" id="undo-hockey-btn">Undo</button>
-                    </div>
-                </div>
-                
-                <div class="sport-specific-controls volleyball-controls" id="volleyball-scoring-controls" style="display: none;">
-                    <h3 style="margin-bottom: 20px;">Volleyball Scoring Controls</h3>
-                    
-                    <div class="controls-grid">
-                        <button class="control-btn" data-action="point-team1-volleyball">Point (Team 1)</button>
-                        <button class="control-btn" data-action="point-team2-volleyball">Point (Team 2)</button>
-                        <button class="control-btn" data-action="ace-team1-volleyball">Ace (Team 1)</button>
-                        <button class="control-btn" data-action="ace-team2-volleyball">Ace (Team 2)</button>
-                        <button class="control-btn" data-action="block-team1">Block (Team 1)</button>
-                        <button class="control-btn" data-action="block-team2">Block (Team 2)</button>
-                        <button class="control-btn" data-action="dig-team1">Dig (Team 1)</button>
-                        <button class="control-btn" data-action="dig-team2">Dig (Team 2)</button>
-                        <button class="control-btn" data-action="kill-team1">Kill (Team 1)</button>
-                        <button class="control-btn" data-action="kill-team2">Kill (Team 2)</button>
-                        <button class="control-btn" data-action="error-team1">Error (Team 1)</button>
-                        <button class="control-btn" data-action="error-team2">Error (Team 2)</button>
-                        <button class="control-btn" id="undo-volleyball-btn">Undo</button>
+                        <button class="control-btn" data-action="score-1-team1" data-score="1" data-team="1">1 <span id="custom-unit-1">Point</span> (Team 1)</button>
+                        <button class="control-btn" data-action="score-1-team2" data-score="1" data-team="2">1 <span id="custom-unit-2">Point</span> (Team 2)</button>
+                        <button class="control-btn" data-action="score-3-team1" data-score="3" data-team="1">3 <span id="custom-unit-3">Points</span> (Team 1)</button>
+                        <button class="control-btn" data-action="score-3-team2" data-score="3" data-team="2">3 <span id="custom-unit-4">Points</span> (Team 2)</button>
+                        <button class="control-btn" data-action="penalty-team1" data-team="1">Penalty (Team 1)</button>
+                        <button class="control-btn" data-action="penalty-team2" data-team="2">Penalty (Team 2)</button>
+                        <button class="control-btn" data-action="undo-custom">Undo</button>
                     </div>
                 </div>
                 
@@ -1920,7 +1764,7 @@
             name: 'Champions League T20',
             teams: [],
             sportSpecific: {
-                oversPerInnings: 20, // Default initialization
+                oversPerInnings: 20, // Default initialization for cricket
                 playersPerTeam: 11
             },
             currentMatch: null,
@@ -1953,50 +1797,13 @@
             legalBallsThisOver: 0
         };
         
-        // Football Match State (Initialization kept for completeness)
-        let footballMatchState = {
-            team1Goals: 0,
-            team2Goals: 0,
-            team1YellowCards: 0,
-            team2YellowCards: 0,
-            team1RedCards: 0,
-            team2RedCards: 0,
-            team1Corners: 0,
-            team2Corners: 0,
-            team1Fouls: 0,
-            team2Fouls: 0,
-            team1Shots: 0,
-            team2Shots: 0,
-            team1ShotsOnTarget: 0,
-            team2ShotsOnTarget: 0,
-            possessionTeam1: 50,
-            possessionTeam2: 50,
-            currentMinute: 0,
-            events: []
-        };
-        
-        // Basketball Match State (Initialization kept for completeness)
-        let basketballMatchState = {
-            team1Points: 0,
-            team2Points: 0,
-            team1PointsByQuarter: [0, 0, 0, 0],
-            team2PointsByQuarter: [0, 0, 0, 0],
-            team1FieldGoals: { made: 0, attempted: 0 },
-            team2FieldGoals: { made: 0, attempted: 0 },
-            team1ThreePointers: { made: 0, attempted: 0 },
-            team2ThreePointers: { made: 0, attempted: 0 },
-            team1FreeThrows: { made: 0, attempted: 0 },
-            team2FreeThrows: { made: 0, attempted: 0 },
-            team1Rebounds: 0,
-            team2Rebounds: 0,
-            team1Assists: 0,
-            team2Assists: 0,
-            team1Turnovers: 0,
-            team2Turnovers: 0,
-            team1Fouls: 0,
-            team2Fouls: 0,
-            currentQuarter: 1,
-            quarterTime: 0,
+        // Custom Match State (NEW)
+        let customMatchState = {
+            team1Score: 0,
+            team2Score: 0,
+            durationUnit: 'Minutes',
+            currentDuration: 0,
+            scoringUnit: 'Points',
             events: []
         };
         
@@ -2023,6 +1830,8 @@
             
             // Set default team selection in match setup
             setupTeamSelectionEvents();
+            
+            setupCustomScoringControls(); // Setup custom controls
             
             console.log("App initialized successfully!");
         }
@@ -2158,6 +1967,12 @@
             document.getElementById('team-count').addEventListener('change', updateTournamentFromForm);
             document.getElementById('tournament-name').addEventListener('input', updateTournamentFromForm);
             
+            // Custom Sport changes to update form
+            document.getElementById('custom-sport-name').addEventListener('input', updateTournamentFromForm);
+            document.getElementById('custom-players-per-team').addEventListener('input', updateTournamentFromForm);
+            document.getElementById('custom-scoring-unit').addEventListener('input', updateTournamentFromForm);
+            document.getElementById('custom-duration-unit').addEventListener('input', updateTournamentFromForm);
+            
             // Stats buttons
             document.getElementById('view-stats-btn').addEventListener('click', showStatsModal);
             document.getElementById('view-tournament-stats-btn').addEventListener('click', showTournamentStats);
@@ -2251,8 +2066,12 @@
                             addCricketRun(parseInt(runs));
                         } else if (wicket !== null) {
                             addCricketWicket();
+                        } else if (extra === 'noball4') {
+                             addCricketExtra('noball', 4); // Nb + 4 runs
+                        } else if (extra === 'noball6') {
+                             addCricketExtra('noball', 6); // Nb + 6 runs
                         } else if (extra !== null) {
-                            addCricketExtra(extra);
+                            addCricketExtra(extra, 0); // Default +1 run extra
                         }
                         
                         // Add to history
@@ -2282,6 +2101,46 @@
             });
             
             console.log("Cricket scoring controls setup complete!");
+        }
+
+        // Set up custom scoring controls (NEW)
+        function setupCustomScoringControls() {
+            const customControls = document.querySelectorAll('#custom-scoring-controls .control-btn');
+            
+            customControls.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!currentMatchState.isMatchStarted || tournamentData.sport !== 'custom') {
+                        alert("Please start the match first!");
+                        return;
+                    }
+
+                    const actionType = this.getAttribute('data-action');
+                    const score = parseInt(this.getAttribute('data-score'));
+                    const team = parseInt(this.getAttribute('data-team'));
+
+                    // Store action for undo
+                    const action = {
+                        type: 'custom',
+                        timestamp: new Date().getTime(),
+                        customState: JSON.parse(JSON.stringify(customMatchState)),
+                        matchState: JSON.parse(JSON.stringify(currentMatchState))
+                    };
+
+                    if (actionType.includes('score')) {
+                        addCustomScore(team, score);
+                    } else if (actionType.includes('penalty')) {
+                        addCustomEvent(`Penalty awarded to Team ${team === 1 ? '2' : '1'}`, team === 1 ? 2 : 1);
+                    } else if (actionType === 'undo-custom') {
+                        undoLastCustomAction();
+                    }
+                    
+                    if (actionType !== 'undo-custom') {
+                        currentMatchState.actionHistory.push(action);
+                        updateActionHistory();
+                    }
+                    updateCustomDisplay();
+                });
+            });
         }
         
         // Set up mobile menu toggle
@@ -2368,10 +2227,7 @@
             const sportSpecificControls = {
                 cricket: document.getElementById('cricket-controls'),
                 football: document.getElementById('football-controls'),
-                basketball: document.getElementById('basketball-controls'),
-                tennis: document.getElementById('tennis-controls'),
-                hockey: document.getElementById('hockey-controls'),
-                volleyball: document.getElementById('volleyball-controls')
+                custom: document.getElementById('custom-controls')
             };
             
             Object.values(sportSpecificControls).forEach(control => {
@@ -2412,36 +2268,12 @@
                         <option value="side">Choose Side</option>
                     `;
                     break;
-                case 'basketball':
-                    tossTitle.textContent = 'Jump Ball Winner';
-                    tossWinnerLabel.textContent = 'Jump Ball Winner';
-                    tossDecisionGroup.style.display = 'none';
-                    break;
-                case 'tennis':
-                    tossTitle.textContent = 'Serve Choice';
-                    tossWinnerLabel.textContent = 'Serve Choice Winner';
+                case 'custom':
+                    tossTitle.textContent = 'Starting Choice';
+                    tossWinnerLabel.textContent = 'Choice Winner';
                     tossDecisionGroup.style.display = 'block';
                     document.getElementById('toss-decision').innerHTML = `
-                        <option value="serve">Choose to Serve</option>
-                        <option value="receive">Choose to Receive</option>
-                        <option value="side">Choose Side</option>
-                    `;
-                    break;
-                case 'hockey':
-                    tossTitle.textContent = 'Coin Toss & Choice';
-                    tossWinnerLabel.textContent = 'Coin Toss Winner';
-                    tossDecisionGroup.style.display = 'block';
-                    document.getElementById('toss-decision').innerHTML = `
-                        <option value="push">Choose to Push</option>
-                        <option value="side">Choose Side</option>
-                    `;
-                    break;
-                case 'volleyball':
-                    tossTitle.textContent = 'Serve Choice';
-                    tossWinnerLabel.textContent = 'Serve Choice Winner';
-                    tossDecisionGroup.style.display = 'block';
-                    document.getElementById('toss-decision').innerHTML = `
-                        <option value="serve">Choose to Serve</option>
+                        <option value="start">Choose to Start</option>
                         <option value="receive">Choose to Receive</option>
                         <option value="side">Choose Side</option>
                     `;
@@ -2565,24 +2397,11 @@
                     tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('football-players').value) || 11;
                     break;
                     
-                case 'basketball':
-                    tournamentData.sportSpecific.quarterDuration = parseInt(document.getElementById('basketball-duration').value) || 10;
-                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('basketball-players').value) || 12;
-                    break;
-                    
-                case 'tennis':
-                    tournamentData.sportSpecific.setsToWin = parseInt(document.getElementById('tennis-format').value) || 3;
-                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('tennis-players').value) || 1;
-                    break;
-                    
-                case 'hockey':
-                    tournamentData.sportSpecific.periodDuration = parseInt(document.getElementById('hockey-duration').value) || 15;
-                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('hockey-players').value) || 11;
-                    break;
-                    
-                case 'volleyball':
-                    tournamentData.sportSpecific.setsToWin = parseInt(document.getElementById('volleyball-sets').value) || 3;
-                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('volleyball-players').value) || 12;
+                case 'custom':
+                    tournamentData.name = document.getElementById('custom-sport-name').value + " Tournament" || 'Custom Tournament';
+                    tournamentData.sportSpecific.playersPerTeam = parseInt(document.getElementById('custom-players-per-team').value) || 7;
+                    tournamentData.sportSpecific.scoringUnit = document.getElementById('custom-scoring-unit').value || 'Points';
+                    tournamentData.sportSpecific.durationUnit = document.getElementById('custom-duration-unit').value || 'Minutes';
                     break;
             }
             
@@ -2648,33 +2467,9 @@
                         "Juventus", "AC Milan", "Chelsea", "Arsenal",
                         "Manchester City", "Tottenham Hotspur"
                     ];
-                case 'basketball':
+                case 'custom':
                     return [
-                        "Los Angeles Lakers", "Golden State Warriors", "Chicago Bulls",
-                        "Boston Celtics", "Miami Heat", "San Antonio Spurs",
-                        "Toronto Raptors", "Dallas Mavericks", "Houston Rockets",
-                        "Philadelphia 76ers", "Brooklyn Nets", "Milwaukee Bucks"
-                    ];
-                case 'tennis':
-                    return [
-                        "Aces United", "Grand Slam Smashers", "Court Kings",
-                        "Net Rulers", "Baseline Bombers", "Serve Masters",
-                        "Volley Vikings", "Backhand Bandits", "Forehand Fighters",
-                        "Smash Squad", "Lob Legends", "Drop Shot Dynamos"
-                    ];
-                case 'hockey':
-                    return [
-                        "Toronto Maple Leafs", "Montreal Canadiens", "Boston Bruins",
-                        "Detroit Red Wings", "Chicago Blackhawks", "New York Rangers",
-                        "Edmonton Oilers", "Pittsburgh Penguins", "Washington Capitals",
-                        "Colorado Avalanche", "Tampa Bay Lightning", "Vegas Golden Knights"
-                    ];
-                case 'volleyball':
-                    return [
-                        "Spike Masters", "Block Titans", "Serve Aces",
-                        "Dig Defenders", "Set Specialists", "Net Kings",
-                        "Court Commanders", "Attack Avengers", "Defense Dynasty",
-                        "Power Players", "Quick Sets", "Jump Servers"
+                        "Dragons", "Sharks", "Aces", "Tigers", "Hawks", "Spikers"
                     ];
                 default:
                     return [];
@@ -2827,17 +2622,12 @@
                     case 'football':
                         tossText = `${tossWinner.name} won coin toss and chose to ${tossDecision === 'kickoff' ? 'kick off' : 'choose side'}`;
                         break;
-                    case 'basketball':
-                        tossText = `${tossWinner.name} won jump ball`; // Decision group is hidden for basketball
-                        break;
-                    case 'tennis':
-                        tossText = `${tossWinner.name} won serve choice and chose to ${tossDecision === 'serve' ? 'serve' : tossDecision === 'receive' ? 'receive' : 'choose side'}`;
-                        break;
-                    case 'hockey':
-                        tossText = `${tossWinner.name} won coin toss and chose to ${tossDecision === 'push' ? 'push' : 'choose side'}`;
-                        break;
-                    case 'volleyball':
-                        tossText = `${tossWinner.name} won serve choice and chose to ${tossDecision === 'serve' ? 'serve' : tossDecision === 'receive' ? 'receive' : 'choose side'}`;
+                    case 'custom':
+                        let decisionText = '';
+                        if (tossDecision === 'start') decisionText = `start the ${tournamentData.sportSpecific.durationUnit.toLowerCase()}`;
+                        else if (tossDecision === 'receive') decisionText = 'receive';
+                        else decisionText = 'choose side';
+                        tossText = `${tossWinner.name} won the choice and chose to ${decisionText}`;
                         break;
                     default:
                         tossText = `${tossWinner.name} won toss`;
@@ -2857,17 +2647,8 @@
                 case 'football':
                     formatText = `${tournamentData.sportSpecific.matchDuration} minute match`;
                     break;
-                case 'basketball':
-                    formatText = `${tournamentData.sportSpecific.quarterDuration} minute quarters`;
-                    break;
-                case 'tennis':
-                    formatText = `Best of ${tournamentData.sportSpecific.setsToWin} sets`;
-                    break;
-                case 'hockey':
-                    formatText = `${tournamentData.sportSpecific.periodDuration} minute periods`;
-                    break;
-                case 'volleyball':
-                    formatText = `Best of ${tournamentData.sportSpecific.setsToWin} sets`;
+                case 'custom':
+                    formatText = `Scoring: ${tournamentData.sportSpecific.scoringUnit} | Duration: ${tournamentData.sportSpecific.durationUnit}`;
                     break;
             }
             
@@ -2934,7 +2715,16 @@
                         legalBallsThisOver: 0
                     };
                     break;
-                /* Add initialization for other sports if needed */
+                case 'custom':
+                     customMatchState = {
+                        team1Score: 0,
+                        team2Score: 0,
+                        durationUnit: tournamentData.sportSpecific.durationUnit,
+                        currentDuration: 0,
+                        scoringUnit: tournamentData.sportSpecific.scoringUnit,
+                        events: []
+                    };
+                    break;
             }
             
             return true;
@@ -2963,6 +2753,10 @@
                     document.getElementById('match-format-display').textContent = `Overs: ${tournamentData.sportSpecific.oversPerInnings} per innings`;
                     initializeCricketDisplay();
                     break;
+                case 'custom':
+                    updateCustomDisplay();
+                    break;
+                // Add initialization for other sports if needed
             }
             
             // Clear action history
@@ -2987,20 +2781,31 @@
             document.getElementById(`${tournamentData.sport}-scoring-controls`).style.display = 'block';
             document.getElementById(`${tournamentData.sport}-scorecard`).style.display = 'grid';
             
-            // Handle buttons visibility (e.g., end innings only for cricket/volleyball)
+            // Handle buttons visibility 
             const endInningsBtn = document.getElementById('end-innings-btn');
             if (endInningsBtn) {
-                if (tournamentData.sport === 'cricket' || tournamentData.sport === 'volleyball') {
+                if (tournamentData.sport === 'cricket') {
                     endInningsBtn.style.display = 'inline-flex';
                 } else {
                     endInningsBtn.style.display = 'none';
                 }
             }
+            
+            if (tournamentData.sport === 'custom') {
+                document.getElementById('custom-controls-title').textContent = `${tournamentData.sportSpecific.scoringUnit} Controls`;
+                document.getElementById('custom-match-title').textContent = `${tournamentData.name} Scoreboard`;
+                
+                // Update generic button units
+                document.querySelectorAll('#custom-scoring-controls span').forEach(span => {
+                    const isPlural = span.id.includes('s');
+                    span.textContent = isPlural ? tournamentData.sportSpecific.scoringUnit + (tournamentData.sportSpecific.scoringUnit.endsWith('s') ? '' : 's') : tournamentData.sportSpecific.scoringUnit;
+                });
+            }
         }
         
         // CRICKET FUNCTIONS
         
-        // Add runs in cricket
+        // Add runs in cricket (Modified for Nb 4/6)
         function addCricketRun(runs) {
             cricketMatchState.totalRuns += runs;
             cricketMatchState.legalBallsThisOver++;
@@ -3051,27 +2856,29 @@
             }
         }
         
-        // Add extra in cricket
-        function addCricketExtra(extraType) {
-            let runs = 1;
+        // Add extra in cricket (Modified for custom runs with extra)
+        function addCricketExtra(extraType, extraRuns = 0) {
+            let runs = 1 + extraRuns; // 1 for the extra itself (wide/noball) + extraRuns (0, 4, or 6)
             let symbol = '';
             let isLegalBall = false;
             
             switch(extraType) {
                 case 'wide':
                     symbol = 'Wd';
-                    // Wide: +1 run, no ball counted
+                    runs = 1;
                     break;
                 case 'noball':
-                    symbol = 'Nb';
-                    // No ball: +1 run, no ball counted
+                    symbol = extraRuns > 0 ? `Nb+${extraRuns}` : 'Nb';
+                    runs = 1 + extraRuns;
                     break;
                 case 'bye':
                     symbol = 'B';
+                    runs = extraRuns; // Only byes count towards runs, no extra run for ball type
                     isLegalBall = true;
                     break;
                 case 'legbye':
                     symbol = 'Lb';
+                    runs = extraRuns; // Only legbyes count towards runs, no extra run for ball type
                     isLegalBall = true;
                     break;
             }
@@ -3079,7 +2886,7 @@
             cricketMatchState.extras += runs;
             cricketMatchState.totalRuns += runs;
             
-            if (isLegalBall) {
+            if (isLegalBall || extraType === 'bye' || extraType === 'legbye') {
                 cricketMatchState.legalBallsThisOver++;
             }
             
@@ -3087,6 +2894,7 @@
             cricketMatchState.currentOverBalls.push({ 
                 type: 'extra', 
                 value: symbol,
+                runs: runs,
                 timestamp: new Date().getTime()
             });
             
@@ -3122,7 +2930,6 @@
                 // Restore match state
                 currentMatchState.isMatchStarted = lastAction.matchState.isMatchStarted;
                 currentMatchState.innings = lastAction.matchState.innings;
-                // Re-add the remaining history, excluding the undone action
                 currentMatchState.actionHistory = lastAction.matchState.actionHistory; 
                 
                 // Make sure we keep the team references
@@ -3143,7 +2950,7 @@
             }
         }
         
-        // Update cricket display (MODIFIED)
+        // Update cricket display
         function updateCricketDisplay() {
             // Update score display
             document.getElementById('current-score').textContent = 
@@ -3176,7 +2983,6 @@
             const totalBalls = tournamentData.sportSpecific.oversPerInnings * 6;
             const ballsBowled = cricketMatchState.currentOver * 6 + cricketMatchState.legalBallsThisOver;
             const ballsRemaining = Math.max(0, totalBalls - ballsBowled);
-            // document.getElementById('balls-remaining').textContent = ballsRemaining; // Element removed from visible UI
             
             // Update match stats
             const oversBowled = cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6);
@@ -3200,9 +3006,6 @@
             // Update overs breakdown
             updateOversDisplay();
             
-            // Update current over details (Simplified, only what remains in visible UI)
-            // No need to update current over details/partnership/extras/projected score as those fields are gone.
-            
             // Update current over balls display
             updateCurrentOverBalls();
         }
@@ -3225,72 +3028,6 @@
             }
             
             updateCricketDisplay();
-        }
-        
-        // Update wickets display
-        function updateWicketsDisplay() {
-            const wicketsDisplay = document.getElementById('wickets-display');
-            wicketsDisplay.innerHTML = '';
-            
-            const totalWickets = 10;
-            
-            for (let i = 0; i < totalWickets; i++) {
-                const wicketDot = document.createElement('div');
-                wicketDot.className = `wicket-dot ${i < cricketMatchState.wickets ? 'taken' : 'remaining'}`;
-                wicketDot.textContent = i < cricketMatchState.wickets ? 'W' : (i + 1);
-                wicketsDisplay.appendChild(wicketDot);
-            }
-        }
-        
-        // Update overs display
-        function updateOversDisplay() {
-            // Update each over cell
-            for (let i = 0; i < tournamentData.sportSpecific.oversPerInnings; i++) {
-                const overCell = document.getElementById(`over-${i+1}`);
-                
-                if (i < cricketMatchState.overs.length) {
-                    const overRuns = cricketMatchState.overs[i].reduce((total, ball) => {
-                        if (ball.type === 'run') return total + ball.value;
-                        if (ball.type === 'extra') return total + 1;
-                        return total;
-                    }, 0);
-                    
-                    overCell.textContent = overRuns;
-                    overCell.classList.remove('current');
-                } else if (i === cricketMatchState.currentOver) {
-                    overCell.classList.add('current');
-                } else {
-                    overCell.classList.remove('current');
-                }
-            }
-        }
-        
-        // Update current over balls display
-        function updateCurrentOverBalls() {
-            const currentOverBallsDiv = document.getElementById('current-over-balls');
-            currentOverBallsDiv.innerHTML = '';
-            
-            cricketMatchState.currentOverBalls.forEach((ball, index) => {
-                const ballDiv = document.createElement('div');
-                ballDiv.className = 'ball';
-                
-                // Set ball class based on type
-                if (ball.type === 'run') {
-                    ballDiv.classList.add('run');
-                    ballDiv.textContent = ball.value === 0 ? '•' : ball.value;
-                } else if (ball.type === 'wicket') {
-                    ballDiv.classList.add('wicket');
-                    ballDiv.textContent = 'W';
-                } else if (ball.type === 'extra') {
-                    if (ball.value === 'Wd') ballDiv.classList.add('wide');
-                    else if (ball.value === 'Nb') ballDiv.classList.add('noball');
-                    else if (ball.value === 'B') ballDiv.classList.add('bye');
-                    else if (ball.value === 'Lb') ballDiv.classList.add('legbye');
-                    ballDiv.textContent = ball.value;
-                }
-                
-                currentOverBallsDiv.appendChild(ballDiv);
-            });
         }
         
         // End first innings in cricket
@@ -3342,7 +3079,69 @@
             
             showNotification(`First innings complete! ${cricketMatchState.bowlingTeam.name} needs ${cricketMatchState.target} runs to win.`, 'success');
         }
+
+        // CUSTOM SPORT FUNCTIONS (NEW)
         
+        function addCustomScore(team, score) {
+            if (team === 1) {
+                customMatchState.team1Score += score;
+            } else {
+                customMatchState.team2Score += score;
+            }
+            addCustomEvent(`${score} ${tournamentData.sportSpecific.scoringUnit} added to ${currentMatchState[`team${team}`].name}`, team);
+        }
+
+        function addCustomEvent(description, team = 0) {
+            customMatchState.events.unshift({
+                desc: description,
+                team: team,
+                timestamp: new Date().getTime()
+            });
+        }
+
+        function undoLastCustomAction() {
+            if (currentMatchState.actionHistory.length === 0) {
+                showNotification('No actions to undo', 'warning');
+                return;
+            }
+
+            const lastAction = currentMatchState.actionHistory.pop();
+            
+            if (lastAction.type === 'custom') {
+                customMatchState = lastAction.customState;
+                currentMatchState.actionHistory = lastAction.matchState.actionHistory; 
+                updateCustomDisplay();
+                updateActionHistory();
+                showNotification('Undid last action', 'success');
+            } else {
+                showNotification('Cannot undo this action', 'warning');
+            }
+        }
+        
+        function updateCustomDisplay() {
+            document.getElementById('custom-team1-name').textContent = currentMatchState.team1.name;
+            document.getElementById('custom-team2-name').textContent = currentMatchState.team2.name;
+            document.getElementById('custom-team1-score').textContent = customMatchState.team1Score;
+            document.getElementById('custom-team2-score').textContent = customMatchState.team2Score;
+            document.getElementById('custom-duration-display').textContent = `Duration: ${customMatchState.currentDuration} ${customMatchState.durationUnit}`;
+            document.getElementById('innings-status').textContent = tournamentData.sportSpecific.scoringUnit;
+            
+            // Update action history for custom events
+            const customEventsDiv = document.getElementById('custom-events');
+            customEventsDiv.innerHTML = '';
+            
+            customMatchState.events.slice(0, 5).forEach(event => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.textContent = `${event.desc} (${new Date(event.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`;
+                customEventsDiv.appendChild(historyItem);
+            });
+            
+            // Update compact header scores
+            document.getElementById('compact-team1-score').textContent = customMatchState.team1Score;
+            document.getElementById('compact-team2-score').textContent = customMatchState.team2Score;
+        }
+
         // COMMON FUNCTIONS
         
         // Update action history display
@@ -3372,32 +3171,27 @@
                 
                 switch(action.type) {
                     case 'cricket':
-                        // Get the last action performed relative to the saved state
-                        const currentBalls = cricketMatchState.currentOverBalls.length;
-                        const previousBalls = action.cricketState.currentOverBalls.length;
-                        let lastBall;
+                        // Use original state to determine what was added
+                        const prevState = action.cricketState;
+                        const currState = cricketMatchState;
 
-                        if (currentBalls === 0) {
-                            // If current balls is 0, the last action finished an over. Get the last ball of the last completed over.
-                            if (cricketMatchState.overs.length > 0) {
-                                lastBall = cricketMatchState.overs[cricketMatchState.overs.length - 1].slice(-1)[0];
-                            }
-                        } else if (currentBalls > 0) {
-                            // If current balls > 0, get the last ball added.
-                            lastBall = cricketMatchState.currentOverBalls[currentBalls - 1];
-                        }
+                        const prevRuns = prevState.totalRuns;
+                        const currRuns = currState.totalRuns;
+
+                        const prevWickets = prevState.wickets;
+                        const currWickets = currState.wickets;
                         
-                        if (lastBall) {
-                            if (lastBall.type === 'run') {
-                                actionText = `${lastBall.value} run${lastBall.value === 1 ? '' : 's'}`;
-                            } else if (lastBall.type === 'wicket') {
-                                actionText = 'Wicket';
-                            } else if (lastBall.type === 'extra') {
-                                actionText = `${lastBall.value} extra`;
-                            }
+                        if (currWickets > prevWickets) {
+                            actionText = 'Wicket';
+                        } else if (currRuns > prevRuns) {
+                            actionText = `${currRuns - prevRuns} run${(currRuns - prevRuns) === 1 ? '' : 's'}`;
                         } else {
-                            actionText = 'Cricket action';
+                            actionText = 'Dot Ball';
                         }
+                        break;
+                    case 'custom':
+                        // Custom action history is maintained in customMatchState.events
+                        actionText = `Custom Score/Event`;
                         break;
                     default:
                         actionText = 'Action';
@@ -3406,6 +3200,11 @@
                 historyItem.textContent = `${actionText} - ${time}`;
                 actionHistoryDiv.appendChild(historyItem);
             });
+            
+            // If custom sport, update the internal events list too
+            if (tournamentData.sport === 'custom') {
+                 // Note: custom events update is handled in updateCustomDisplay
+            }
         }
         
         // Show notification
@@ -3453,73 +3252,75 @@
             
             switch(tournamentData.sport) {
                 case 'cricket':
-                    // Update the score of the team batting second
-                    if (currentMatchState.innings === 2) {
-                        const secondInningsTeamId = cricketMatchState.battingTeam.id;
-                        const finalScore = {
-                            runs: cricketMatchState.totalRuns,
-                            wickets: cricketMatchState.wickets,
-                            overs: cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6)
-                        };
-                        
-                        if (currentMatchState.team1.id === secondInningsTeamId) {
-                            currentMatchState.team1Score = finalScore;
-                        } else {
-                            currentMatchState.team2Score = finalScore;
-                        }
-                    } else if (currentMatchState.innings === 1) {
-                         // Match ended during first innings (declared early) - assign the score manually
-                         const score = {runs: cricketMatchState.totalRuns, wickets: cricketMatchState.wickets, overs: tournamentData.sportSpecific.oversPerInnings};
-                         if (cricketMatchState.battingTeam.id === currentMatchState.team1.id) {
-                            currentMatchState.team1Score = score;
-                            currentMatchState.team2Score = {runs: 0, wickets: 0, overs: 0};
-                         } else {
-                            currentMatchState.team2Score = score;
-                            currentMatchState.team1Score = {runs: 0, wickets: 0, overs: 0};
-                         }
-                    }
+                    // Store final scores (Logic simplified - should track two innings accurately)
                     
-                    // Determine winner based on scores
                     const score1 = currentMatchState.team1Score || {runs: 0, wickets: 0};
                     const score2 = currentMatchState.team2Score || {runs: 0, wickets: 0};
+                    
+                    // Final score for the team that batted last (currently in cricketMatchState)
+                    const lastTeamId = cricketMatchState.battingTeam.id;
+                    const finalScoreLast = {
+                        runs: cricketMatchState.totalRuns,
+                        wickets: cricketMatchState.wickets,
+                        overs: cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6)
+                    };
+                    
+                    if (currentMatchState.team1.id === lastTeamId) {
+                        currentMatchState.team1Score = finalScoreLast;
+                    } else {
+                        currentMatchState.team2Score = finalScoreLast;
+                    }
 
-                    let team1BattingFirst = true; // Assume T1 batted first unless T2 score exists
-                    let winningScore, losingScore, winningTeam, losingTeam;
+                    // Re-calculate scores for declaration (since JS logic is simplified)
+                    const s1 = currentMatchState.team1Score;
+                    const s2 = currentMatchState.team2Score;
+                    
+                    if (s1.runs > s2.runs) {
+                        winner = currentMatchState.team1;
+                        // Determine if T1 batted first or second (using the original first innings tracking)
+                        if (currentMatchState.innings === 1) { // Ended early in 1st innings
+                             resultSummary = `${winner.name} won by declaration`;
+                        } else if (currentMatchState.team1.id === lastTeamId) { // T1 batted last
+                             resultSummary = `${winner.name} won by ${10 - s1.wickets} wickets`;
+                        } else { // T1 batted first
+                             resultSummary = `${winner.name} won by ${s1.runs - s2.runs} runs`;
+                        }
 
-                    if (score1.runs > score2.runs) {
-                        winningTeam = currentMatchState.team1;
-                        losingTeam = currentMatchState.team2;
-                        winningScore = score1;
-                        losingScore = score2;
-                    } else if (score2.runs > score1.runs) {
-                        winningTeam = currentMatchState.team2;
-                        losingTeam = currentMatchState.team1;
-                        winningScore = score2;
-                        losingScore = score1;
-                        team1BattingFirst = false;
+                    } else if (s2.runs > s1.runs) {
+                        winner = currentMatchState.team2;
+                        if (currentMatchState.innings === 1) { // Ended early in 1st innings
+                            resultSummary = `${winner.name} won by declaration`;
+                        } else if (currentMatchState.team2.id === lastTeamId) { // T2 batted last
+                             resultSummary = `${winner.name} won by ${10 - s2.wickets} wickets`;
+                        } else { // T2 batted first
+                             resultSummary = `${winner.name} won by ${s2.runs - s1.runs} runs`;
+                        }
                     } else {
                         resultSummary = "Match Tied";
                         winner = null;
-                        break;
-                    }
-                    
-                    winner = winningTeam;
-                    
-                    if (team1BattingFirst && winningTeam === currentMatchState.team1 || 
-                        !team1BattingFirst && winningTeam === currentMatchState.team2) {
-                        // Winner batted first
-                        const winningMargin = winningScore.runs - losingScore.runs;
-                        resultSummary = `${winningTeam.name} won by ${winningMargin} runs`;
-                    } else {
-                         // Winner batted second
-                        const winningMargin = 10 - winningScore.wickets;
-                        resultSummary = `${winningTeam.name} won by ${winningMargin} wickets`;
                     }
                     
                     break;
+                
+                case 'custom':
+                    if (customMatchState.team1Score > customMatchState.team2Score) {
+                        winner = currentMatchState.team1;
+                        resultSummary = `${winner.name} won by ${customMatchState.team1Score - customMatchState.team2Score} ${tournamentData.sportSpecific.scoringUnit}`;
+                    } else if (customMatchState.team2Score > customMatchState.team1Score) {
+                         winner = currentMatchState.team2;
+                        resultSummary = `${winner.name} won by ${customMatchState.team2Score - customMatchState.team1Score} ${tournamentData.sportSpecific.scoringUnit}`;
+                    } else {
+                        resultSummary = "Match Tied";
+                        winner = null;
+                    }
                     
+                    currentMatchState.team1Score = {runs: customMatchState.team1Score, wickets: 0, overs: 0};
+                    currentMatchState.team2Score = {runs: customMatchState.team2Score, wickets: 0, overs: 0};
+
+                    break;
+
                 default:
-                    // Placeholder for other sports (assuming T1 wins for now)
+                    // Placeholder for other sports (football)
                     winner = currentMatchState.team1;
                     resultSummary = `${winner.name} won the match`;
             }
@@ -3534,21 +3335,28 @@
             document.getElementById('match-result-summary').textContent = resultSummary;
             
             // Update result details based on sport
+            const s1 = currentMatchState.team1Score || {runs: 0, wickets: 0, overs: 0};
+            const s2 = currentMatchState.team2Score || {runs: 0, wickets: 0, overs: 0};
+            
+            document.getElementById('result-team1-name').textContent = currentMatchState.team1.name;
+            document.getElementById('result-team2-name').textContent = currentMatchState.team2.name;
+            
             if (tournamentData.sport === 'cricket') {
-                const s1 = currentMatchState.team1Score;
-                const s2 = currentMatchState.team2Score;
-                
-                document.getElementById('result-team1-name').textContent = currentMatchState.team1.name;
-                document.getElementById('result-team1-score').textContent = s1 ? `${s1.runs}/${s1.wickets} (${s1.overs.toFixed(1)} Ov)` : 'N/A';
-                
-                document.getElementById('result-team2-name').textContent = currentMatchState.team2.name;
-                document.getElementById('result-team2-score').textContent = s2 ? `${s2.runs}/${s2.wickets} (${s2.overs.toFixed(1)} Ov)` : 'N/A';
-                
-                // Placeholder for MoM/Best Player selections (requires more complex state/UI not requested)
-                document.getElementById('man-of-match').textContent = 'N/A';
-                document.getElementById('best-bowler').textContent = 'N/A';
-                document.getElementById('best-batsman').textContent = 'N/A';
+                document.getElementById('result-team1-score').textContent = `${s1.runs}/${s1.wickets} (${s1.overs.toFixed(1)} Ov)`;
+                document.getElementById('result-team2-score').textContent = `${s2.runs}/${s2.wickets} (${s2.overs.toFixed(1)} Ov)`;
+            } else if (tournamentData.sport === 'custom') {
+                 const unit = tournamentData.sportSpecific.scoringUnit;
+                 document.getElementById('result-team1-score').textContent = `${s1.runs} ${unit}`;
+                 document.getElementById('result-team2-score').textContent = `${s2.runs} ${unit}`;
+            } else {
+                 document.getElementById('result-team1-score').textContent = `Score: ${s1.runs}`;
+                 document.getElementById('result-team2-score').textContent = `Score: ${s2.runs}`;
             }
+
+            // Placeholder for MoM/Best Player selections
+            document.getElementById('man-of-match').textContent = 'N/A';
+            document.getElementById('best-bowler').textContent = 'N/A';
+            document.getElementById('best-batsman').textContent = 'N/A';
             
             // Go to winner announcement
             showSection('winner-announcement');
@@ -3611,12 +3419,37 @@
                         </div>
                     `;
                     break;
+                case 'custom':
+                    statsHTML = `
+                        <h4>${tournamentData.name} Stats</h4>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">${currentMatchState.team1.name} ${tournamentData.sportSpecific.scoringUnit}</div>
+                                <div class="stat-value">${customMatchState.team1Score}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">${currentMatchState.team2.name} ${tournamentData.sportSpecific.scoringUnit}</div>
+                                <div class="stat-value">${customMatchState.team2Score}</div>
+                            </div>
+                             <div class="stat-card">
+                                <div class="stat-label">Duration Unit</div>
+                                <div class="stat-value">${customMatchState.durationUnit}</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <h4>Match Events</h4>
+                            <div class="action-history" style="max-height: 300px;">
+                                ${customMatchState.events.map(e => `<div class="history-item">${e.desc} (${new Date(e.timestamp).toLocaleTimeString()})</div>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
                  default:
                     statsHTML = `<p>No specific match statistics are available for ${tournamentData.sport} yet.</p>`;
             }
             
-            statsContent.innerHTML = statsHTML;
             document.getElementById('statsModal').classList.add('active');
+            document.getElementById('stats-content').innerHTML = statsHTML;
         }
         
         // Show tournament stats
@@ -3686,6 +3519,15 @@
                 isFirstInningsComplete: false,
                 target: 0,
                 legalBallsThisOver: 0
+            };
+            
+            customMatchState = {
+                team1Score: 0,
+                team2Score: 0,
+                durationUnit: 'Minutes',
+                currentDuration: 0,
+                scoringUnit: 'Points',
+                events: []
             };
             
             // Reset UI to match setup
