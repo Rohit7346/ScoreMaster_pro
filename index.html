@@ -39,6 +39,8 @@
             line-height: 1.5;
             overflow-x: hidden;
             font-size: 14px;
+            height: 100vh;
+            overflow: hidden;
         }
         
         h1, h2, h3, h4 {
@@ -100,10 +102,17 @@
             font-size: 1rem;
         }
         
-        /* Main Content Area */
+        /* Main Content Area - Compact for Android */
         main {
-            padding: 25px 0;
-            min-height: calc(100vh - 130px);
+            padding: 15px 0;
+            height: calc(100vh - 130px);
+            overflow-y: auto;
+        }
+        
+        /* Hide scrollbar for main */
+        main::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
         }
         
         .dashboard-section {
@@ -120,7 +129,7 @@
             display: flex;
             background-color: var(--secondary-dark);
             border-radius: var(--border-radius);
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             overflow: hidden;
             border: 1px solid var(--border-color);
         }
@@ -322,19 +331,19 @@
         }
         
         .btn {
-            padding: 10px 25px;
+            padding: 8px 16px;
             background-color: var(--accent-green);
             color: var(--primary-dark);
             border: none;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
         }
         
         .btn:hover {
@@ -345,7 +354,7 @@
         
         .btn-outline {
             background-color: transparent;
-            border: 2px solid var(--accent-green);
+            border: 1.5px solid var(--accent-green);
             color: var(--accent-green);
         }
         
@@ -354,8 +363,8 @@
         }
         
         .btn-small {
-            padding: 7px 12px;
-            font-size: 0.85rem;
+            padding: 5px 10px;
+            font-size: 0.75rem;
         }
         
         /* Navigation buttons */
@@ -528,52 +537,41 @@
         }
         
         /* =========================================== */
-        /* GOOGLE-STYLE COMPACT LIVE SCORING DESIGN */
+        /* COMPACT ANDROID LIVE SCORING LAYOUT */
         /* =========================================== */
         
-        /* Main Scoreboard Container - Google Style */
-        .google-style-scoreboard {
-            background-color: var(--card-dark);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+        /* Main Live Scoring Container */
+        .live-scoring-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 5px;
         }
         
-        /* Match Header */
-        .match-header-google {
+        /* Tournament Header */
+        .tournament-header-compact {
+            background-color: var(--card-dark);
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .tournament-name-google {
+        .tournament-title {
             font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+            color: var(--accent-green);
+            font-weight: 700;
         }
         
-        .match-status-google {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .match-status-google .live-badge {
+        .live-badge {
             background-color: #f44336;
             color: white;
             padding: 3px 8px;
             border-radius: 12px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -587,151 +585,141 @@
             animation: pulse 1.5s infinite;
         }
         
-        /* Teams Score Display - Side by side */
-        .teams-score-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 600px) {
-            .teams-score-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-        
-        .team-score-card {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
+        /* Teams Score Container - Side by Side */
+        .teams-score-compact {
+            background-color: var(--card-dark);
+            border-radius: var(--border-radius);
             padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
         }
         
-        .team-score-card.batting {
-            border-color: var(--accent-green);
-            background-color: rgba(0, 255, 139, 0.05);
-        }
-        
-        .team-name-google {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-        
-        .team-score-large {
-            font-size: 1.8rem;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 5px;
-            color: white;
-        }
-        
-        .team-overs {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Match Info Row */
-        .match-info-row {
+        .teams-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         
-        @media (max-width: 600px) {
-            .match-info-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
+        .team-box {
+            text-align: center;
         }
         
-        .match-info-card {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 12px;
+        .team-name-compact {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
         }
         
-        .info-card-title {
+        .team-score-compact {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+        
+        .team-wickets {
+            font-size: 1rem;
+            color: #f44336;
+            font-weight: 700;
+            margin-left: 2px;
+        }
+        
+        .team-overs-compact {
             font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-bottom: 6px;
-            font-weight: 600;
+            margin-top: 2px;
         }
         
-        .info-card-value {
-            font-size: 1rem;
+        /* Match Status Row */
+        .match-status-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .status-item {
+            text-align: center;
+        }
+        
+        .status-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-value {
+            font-size: 0.9rem;
             font-weight: 700;
             color: white;
         }
         
-        .info-card-value.target {
+        .status-value.target {
             color: var(--accent-green);
         }
         
-        .info-card-value.run-rate {
-            color: var(--accent-green);
-        }
-        
-        /* Players Stats - Google Style */
-        .players-stats-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 600px) {
-            .players-stats-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-        
-        .players-card {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 12px;
-        }
-        
-        .card-title {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        /* Players Container (Boss Layout) */
+        .players-container-compact {
+            background-color: var(--card-dark);
+            border-radius: var(--border-radius);
+            padding: 12px 15px;
             margin-bottom: 10px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            border: 1px solid var(--border-color);
         }
         
-        .player-stat-row {
+        .players-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .player-stat-row:last-child {
-            border-bottom: none;
+        .batters-title, .bowlers-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-green);
         }
         
-        .player-name {
-            font-size: 0.9rem;
-            font-weight: 500;
+        .players-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .batters-list, .bowlers-list {
+            min-height: 60px;
+        }
+        
+        .batter-item-compact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .batter-info {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .strike-indicator {
             width: 6px;
             height: 6px;
-            border-radius: 50%;
             background-color: var(--accent-green);
+            border-radius: 50%;
+        }
+        
+        .player-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .player-stats {
@@ -739,133 +727,132 @@
         }
         
         .player-runs {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: white;
         }
         
         .player-details {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-secondary);
-            margin-top: 2px;
         }
         
-        /* Current Over and Wickets - Combined */
-        .over-wickets-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        @media (max-width: 600px) {
-            .over-wickets-container {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-        }
-        
-        .over-box, .wickets-box {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 12px;
-        }
-        
-        .current-over-balls {
+        .bowler-item-compact {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
         
-        .over-ball {
-            width: 32px;
-            height: 32px;
+        /* Over and Wickets Container */
+        .over-wickets-container {
+            background-color: var(--card-dark);
+            border-radius: var(--border-radius);
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .over-wickets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .over-title, .wickets-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        
+        .over-balls-container, .wickets-container {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .over-ball-compact {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
-        .over-ball.dot { 
+        .over-ball-compact.dot { 
             background-color: rgba(255, 255, 255, 0.05); 
             color: var(--text-secondary);
         }
         
-        .over-ball.run-1 { 
+        .over-ball-compact.run-1 { 
             background-color: rgba(0, 200, 83, 0.2); 
             color: #00c853;
             border: 1px solid #00c853;
         }
         
-        .over-ball.run-2 { 
+        .over-ball-compact.run-2 { 
             background-color: rgba(0, 200, 83, 0.3); 
             color: #00c853;
             border: 1px solid #00c853;
         }
         
-        .over-ball.run-3 { 
+        .over-ball-compact.run-3 { 
             background-color: rgba(0, 200, 83, 0.4); 
             color: #00c853;
             border: 1px solid #00c853;
         }
         
-        .over-ball.run-4 { 
+        .over-ball-compact.run-4 { 
             background-color: rgba(255, 193, 7, 0.2); 
             color: #ffc107;
             border: 1px solid #ffc107;
         }
         
-        .over-ball.run-6 { 
+        .over-ball-compact.run-6 { 
             background-color: rgba(255, 87, 34, 0.2); 
             color: #ff5722;
             border: 1px solid #ff5722;
         }
         
-        .over-ball.wicket { 
+        .over-ball-compact.wicket { 
             background-color: rgba(244, 67, 54, 0.2); 
             color: #f44336;
             border: 1px solid #f44336;
         }
         
-        .over-ball.wide { 
+        .over-ball-compact.wide { 
             background-color: rgba(156, 39, 176, 0.2); 
             color: #9c27b0;
             border: 1px solid #9c27b0;
         }
         
-        .over-ball.noball { 
+        .over-ball-compact.noball { 
             background-color: rgba(255, 152, 0, 0.2); 
             color: #ff9800;
             border: 1px solid #ff9800;
         }
         
-        .wickets-display {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        
-        .wicket-dot {
-            width: 30px;
-            height: 30px;
+        .wicket-dot-compact {
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         
-        .wicket-dot.taken {
+        .wicket-dot-compact.taken {
             background: linear-gradient(135deg, #f44336, #d32f2f);
             color: white;
         }
         
-        .wicket-dot.remaining {
+        .wicket-dot-compact.remaining {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
@@ -878,51 +865,33 @@
         .scoring-controls-compact {
             background-color: var(--card-dark);
             border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
             border: 1px solid var(--border-color);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
         .controls-title {
-            text-align: center;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
             color: var(--accent-green);
-            font-size: 1rem;
             font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
         }
         
         /* Runs Controls - Circle Buttons */
         .runs-controls-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
             justify-items: center;
         }
         
-        @media (max-width: 768px) {
-            .runs-controls-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .runs-controls-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-        }
-        
         .circle-btn {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -931,14 +900,7 @@
             background-color: var(--secondary-dark);
             color: var(--text-primary);
             font-weight: 700;
-        }
-        
-        @media (max-width: 480px) {
-            .circle-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 0.9rem;
-            }
+            font-size: 1rem;
         }
         
         .circle-btn:hover {
@@ -956,117 +918,136 @@
         
         .circle-btn.run-2 {
             border-color: #00c853;
-            background-color: rgba(0, 200, 83, 0.1);
         }
         
         .circle-btn.run-3 {
             border-color: #00c853;
-            background-color: rgba(0, 200, 83, 0.15);
         }
         
         .circle-btn.run-4 {
             border-color: #ffc107;
-            background-color: rgba(255, 193, 7, 0.1);
         }
         
         .circle-btn.run-6 {
             border-color: #ff5722;
-            background-color: rgba(255, 87, 34, 0.1);
         }
         
         .circle-btn.wicket {
             border-color: #f44336;
-            background-color: rgba(244, 67, 54, 0.1);
-        }
-        
-        .circle-btn.wide {
-            border-color: #9c27b0;
-            background-color: rgba(156, 39, 176, 0.1);
-        }
-        
-        .circle-btn.noball {
-            border-color: #ff9800;
-            background-color: rgba(255, 152, 0, 0.1);
-        }
-        
-        .circle-btn-label {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-top: 2px;
         }
         
         /* Extra Controls Row */
-        .extra-controls-grid {
+        .extra-controls-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
         }
         
-        @media (max-width: 480px) {
-            .extra-controls-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-        }
-        
-        .extra-circle-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid var(--border-color);
+        .extra-btn {
+            padding: 6px 3px;
             background-color: var(--secondary-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
             color: var(--text-primary);
             font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
         }
         
-        @media (max-width: 480px) {
-            .extra-circle-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 0.9rem;
-            }
-        }
-        
-        .extra-circle-btn:hover {
+        .extra-btn:hover {
             border-color: var(--accent-green);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
-        /* Action Buttons Row */
+        .extra-btn.wide {
+            border-color: #9c27b0;
+        }
+        
+        .extra-btn.noball {
+            border-color: #ff9800;
+        }
+        
+        /* Action Buttons Row - Compact Square Oval */
         .action-buttons-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 6px;
             justify-content: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
         }
         
-        /* Player Management Section */
-        .player-management-section {
+        .action-btn {
+            padding: 6px 10px;
+            background-color: transparent;
+            border: 1.5px solid var(--accent-green);
+            border-radius: 20px;
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .action-btn:hover {
+            background-color: rgba(0, 255, 139, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--accent-green);
+            color: var(--primary-dark);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: var(--accent-green-dark);
+        }
+        
+        /* Player Management Container */
+        .player-management-compact {
             background-color: var(--card-dark);
             border-radius: var(--border-radius);
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
             border: 1px solid var(--border-color);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
-        .player-management-buttons {
+        .management-title {
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .management-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 6px;
+        }
+        
+        .management-btn {
+            padding: 5px 8px;
+            background-color: transparent;
+            border: 1.5px solid var(--accent-green);
+            border-radius: 20px;
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .management-btn:hover {
+            background-color: rgba(0, 255, 139, 0.1);
+            transform: translateY(-2px);
         }
         
         /* Winner Announcement */
@@ -1280,13 +1261,13 @@
         .step-progress {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             position: relative;
         }
         
         @media (max-width: 768px) {
             .step-progress {
-                margin-bottom: 20px;
+                margin-bottom: 12px;
             }
         }
         
@@ -1430,17 +1411,12 @@
             .user-profile span {
                 display: none;
             }
-            
-            .btn {
-                padding: 8px 20px;
-                font-size: 0.9rem;
-            }
         }
         
         /* Undo Button */
         .undo-btn-circle {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background-color: var(--secondary-dark);
             border: 2px solid var(--border-color);
@@ -1450,47 +1426,12 @@
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1.1rem;
-        }
-        
-        @media (max-width: 480px) {
-            .undo-btn-circle {
-                width: 45px;
-                height: 45px;
-            }
+            font-size: 1rem;
         }
         
         .undo-btn-circle:hover {
             border-color: var(--accent-green);
             transform: translateY(-3px);
-        }
-        
-        /* Bowling Info */
-        .bowling-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-        }
-        
-        .bowler-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .bowler-stats {
-            text-align: right;
-        }
-        
-        .bowler-overs {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .bowler-economy {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -1740,237 +1681,130 @@
             </div>
         </section>
         
-        <!-- Live Scoring - Google Style -->
+        <!-- Live Scoring - Compact Android Layout -->
         <section id="live-scoring" class="dashboard-section">
-            <!-- Google Style Scoreboard -->
-            <div class="google-style-scoreboard">
-                <!-- Match Header -->
-                <div class="match-header-google">
-                    <div class="tournament-name-google" id="tournament-display-name-google">Champions League T20</div>
-                    <div class="match-status-google">
-                        <span class="live-badge"><span class="live-pulse"></span> LIVE</span>
-                        <span id="match-status-text-google">Day 1 • 2nd Innings</span>
+            <div class="live-scoring-container">
+                <!-- Tournament Header -->
+                <div class="tournament-header-compact">
+                    <div class="tournament-title" id="tournament-title-compact">Champions League T20</div>
+                    <div class="live-badge">
+                        <span class="live-pulse"></span>
+                        <span>LIVE</span>
                     </div>
                 </div>
                 
-                <!-- Teams Score Display -->
-                <div class="teams-score-container">
-                    <!-- Team 1 -->
-                    <div class="team-score-card" id="team1-score-card">
-                        <div class="team-name-google" id="team1-name-google">Australia</div>
-                        <div class="team-score-large" id="team1-score-google">213/8</div>
-                        <div class="team-overs" id="team1-overs-google">68 overs</div>
-                        <div id="team1-status-google" style="font-size: 0.85rem; color: var(--accent-green); font-weight: 600; margin-top: 5px;">BATTING</div>
+                <!-- Teams Score - Side by Side -->
+                <div class="teams-score-compact">
+                    <div class="teams-row" id="teams-score-row">
+                        <!-- Teams will be populated here -->
                     </div>
                     
-                    <!-- Team 2 -->
-                    <div class="team-score-card" id="team2-score-card">
-                        <div class="team-name-google" id="team2-name-google">England</div>
-                        <div class="team-score-large" id="team2-score-google">371</div>
-                        <div class="team-overs" id="team2-overs-google">91.2 overs</div>
-                        <div id="team2-status-google" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">1st Innings</div>
-                    </div>
-                </div>
-                
-                <!-- Match Info Row -->
-                <div class="match-info-row">
-                    <div class="match-info-card">
-                        <div class="info-card-title">Target</div>
-                        <div class="info-card-value target" id="target-value-google">158 runs</div>
-                    </div>
-                    <div class="match-info-card">
-                        <div class="info-card-title">Trail By</div>
-                        <div class="info-card-value" id="trail-by-google">158 runs</div>
-                    </div>
-                    <div class="match-info-card">
-                        <div class="info-card-title">Current RR</div>
-                        <div class="info-card-value run-rate" id="current-rr-google">3.13</div>
-                    </div>
-                    <div class="match-info-card">
-                        <div class="info-card-title">Required RR</div>
-                        <div class="info-card-value" id="required-rr-google">3.50</div>
-                    </div>
-                </div>
-                
-                <!-- Players Stats -->
-                <div class="players-stats-container">
-                    <!-- Current Batters -->
-                    <div class="players-card">
-                        <div class="card-title">
-                            <i class="fas fa-user"></i> Current Batters
+                    <div class="match-status-row">
+                        <div class="status-item">
+                            <div class="status-label">Target</div>
+                            <div class="status-value target" id="target-display-compact">-</div>
                         </div>
-                        
-                        <div class="player-stat-row">
-                            <div class="player-name">
-                                <span class="strike-indicator"></span>
-                                <span id="striker-name-google">B. Stokes</span>
-                            </div>
-                            <div class="player-stats">
-                                <div class="player-runs" id="striker-runs-google">45*</div>
-                                <div class="player-details" id="striker-balls-google">151 balls</div>
-                            </div>
-                        </div>
-                        
-                        <div class="player-stat-row">
-                            <div class="player-name">
-                                <span class="strike-indicator" style="background-color: transparent;"></span>
-                                <span id="non-striker-name-google">J. Archer</span>
-                            </div>
-                            <div class="player-stats">
-                                <div class="player-runs" id="non-striker-runs-google">30*</div>
-                                <div class="player-details" id="non-striker-balls-google">48 balls</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Current Bowler -->
-                    <div class="players-card">
-                        <div class="card-title">
-                            <i class="fas fa-baseball-ball"></i> Current Bowler
-                        </div>
-                        
-                        <div class="player-stat-row">
-                            <div class="player-name" id="bowler-name-google">N. Lyon</div>
-                            <div class="player-stats">
-                                <div class="player-runs" id="bowler-stats-google">2/51</div>
-                                <div class="player-details" id="bowler-overs-google">22.0 overs</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Other Bowlers -->
-                        <div class="player-stat-row">
-                            <div class="player-name" id="other-bowler1-name-google">C. Green</div>
-                            <div class="player-stats">
-                                <div class="player-runs" id="other-bowler1-stats-google">1/22</div>
-                                <div class="player-details" id="other-bowler1-overs-google">8.0 overs</div>
-                            </div>
+                        <div class="status-item">
+                            <div class="status-label">RR</div>
+                            <div class="status-value" id="run-rate-compact">0.00</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Current Over and Wickets -->
+                <!-- Players Container (Boss Layout) -->
+                <div class="players-container-compact">
+                    <div class="players-header">
+                        <div class="batters-title">BATTERS</div>
+                        <div class="bowlers-title">BOWLERS</div>
+                    </div>
+                    <div class="players-content">
+                        <!-- Batters (Left Side) -->
+                        <div class="batters-list" id="batters-list-compact">
+                            <!-- Batters will be populated here -->
+                        </div>
+                        
+                        <!-- Bowlers (Right Side) -->
+                        <div class="bowlers-list" id="bowlers-list-compact">
+                            <!-- Bowlers will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Over and Wickets Container -->
                 <div class="over-wickets-container">
-                    <!-- Current Over -->
-                    <div class="over-box">
-                        <div class="card-title">
-                            <i class="fas fa-clock"></i> Current Over
-                        </div>
-                        <div class="current-over-balls" id="current-over-balls-google">
-                            <!-- Over balls will appear here -->
+                    <div class="over-wickets-header">
+                        <div class="over-title">CURRENT OVER</div>
+                        <div class="wickets-title">WICKETS (<span id="wickets-count">0</span>/10)</div>
+                    </div>
+                    <div class="over-balls-container" id="current-over-balls-compact">
+                        <!-- Over balls will appear here -->
+                    </div>
+                    <div class="wickets-container" id="wickets-display-compact">
+                        <!-- Wickets will appear here -->
+                    </div>
+                </div>
+                
+                <!-- Scoring Controls - Circle Buttons -->
+                <div class="scoring-controls-compact">
+                    <div class="controls-title">SCORING CONTROLS</div>
+                    
+                    <!-- Runs Controls -->
+                    <div class="runs-controls-grid">
+                        <div class="circle-btn run-0" data-runs="0">0</div>
+                        <div class="circle-btn run-1" data-runs="1">1</div>
+                        <div class="circle-btn run-2" data-runs="2">2</div>
+                        <div class="circle-btn run-3" data-runs="3">3</div>
+                        <div class="circle-btn run-4" data-runs="4">4</div>
+                        <div class="circle-btn run-6" data-runs="6">6</div>
+                        <div class="circle-btn wicket" data-wicket="true">W</div>
+                        <div class="undo-btn-circle" id="undo-btn-compact">
+                            <i class="fas fa-undo"></i>
                         </div>
                     </div>
                     
-                    <!-- Wickets -->
-                    <div class="wickets-box">
-                        <div class="card-title">
-                            <i class="fas fa-skull-crossbones"></i> Wickets (8/10)
-                        </div>
-                        <div class="wickets-display" id="wickets-display-google">
-                            <!-- Wickets will appear here -->
-                        </div>
+                    <!-- Extra Controls -->
+                    <div class="extra-controls-row">
+                        <div class="extra-btn wide" data-extra="wide">Wd</div>
+                        <div class="extra-btn noball" data-extra="noball">Nb</div>
+                        <div class="extra-btn noball" data-extra="noball4">Nb+4</div>
+                        <div class="extra-btn noball" data-extra="noball6">Nb+6</div>
+                        <div class="extra-btn" data-extra="bye">B</div>
+                    </div>
+                    
+                    <!-- Action Buttons Row -->
+                    <div class="action-buttons-row">
+                        <button class="action-btn" id="swap-batsmen-btn-compact">
+                            <i class="fas fa-random"></i> Swap
+                        </button>
+                        <button class="action-btn" id="change-bowler-btn-compact">
+                            <i class="fas fa-baseball-ball"></i> Bowler
+                        </button>
+                        <button class="action-btn" id="view-stats-btn-compact">
+                            <i class="fas fa-chart-bar"></i> Stats
+                        </button>
+                        <button class="action-btn primary" id="end-innings-btn-compact">
+                            <i class="fas fa-flag-checkered"></i> End Innings
+                        </button>
                     </div>
                 </div>
                 
-                <!-- Match Progress -->
-                <div style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
-                    <span id="match-progress-text">Test 3 of 5 (AUS leads 2-0) • End of day 2</span>
-                </div>
-            </div>
-            
-            <!-- Compact Scoring Controls with Circle Buttons -->
-            <div class="scoring-controls-compact">
-                <div class="controls-title">Cricket Scoring Controls</div>
-                
-                <!-- Main Runs Controls -->
-                <div class="runs-controls-grid">
-                    <div class="circle-btn run-0" data-runs="0">
-                        <span>0</span>
-                        <span class="circle-btn-label">Dot</span>
+                <!-- Player Management Container -->
+                <div class="player-management-compact">
+                    <div class="management-title">PLAYER MANAGEMENT</div>
+                    <div class="management-buttons">
+                        <button class="management-btn" id="change-striker-btn-compact">
+                            <i class="fas fa-exchange-alt"></i> Striker
+                        </button>
+                        <button class="management-btn" id="change-non-striker-btn-compact">
+                            <i class="fas fa-user-friends"></i> Non-Striker
+                        </button>
+                        <button class="management-btn" id="new-batsman-btn-compact">
+                            <i class="fas fa-user-plus"></i> New Batsman
+                        </button>
+                        <button class="management-btn" id="back-to-setup-compact">
+                            <i class="fas fa-cog"></i> Setup
+                        </button>
                     </div>
-                    <div class="circle-btn run-1" data-runs="1">
-                        <span>1</span>
-                        <span class="circle-btn-label">Single</span>
-                    </div>
-                    <div class="circle-btn run-2" data-runs="2">
-                        <span>2</span>
-                        <span class="circle-btn-label">Double</span>
-                    </div>
-                    <div class="circle-btn run-3" data-runs="3">
-                        <span>3</span>
-                        <span class="circle-btn-label">Triple</span>
-                    </div>
-                    <div class="circle-btn run-4" data-runs="4">
-                        <span>4</span>
-                        <span class="circle-btn-label">Boundary</span>
-                    </div>
-                    <div class="circle-btn run-6" data-runs="6">
-                        <span>6</span>
-                        <span class="circle-btn-label">Maximum</span>
-                    </div>
-                    <div class="circle-btn wicket" data-wicket="true">
-                        <span>W</span>
-                        <span class="circle-btn-label">Wicket</span>
-                    </div>
-                </div>
-                
-                <!-- Extra Controls -->
-                <div class="extra-controls-grid">
-                    <div class="extra-circle-btn" data-extra="wide">
-                        <span>Wd</span>
-                        <span class="circle-btn-label">Wide</span>
-                    </div>
-                    <div class="extra-circle-btn" data-extra="noball">
-                        <span>Nb</span>
-                        <span class="circle-btn-label">No Ball</span>
-                    </div>
-                    <div class="extra-circle-btn" data-extra="bye">
-                        <span>B</span>
-                        <span class="circle-btn-label">Bye</span>
-                    </div>
-                    <div class="extra-circle-btn" data-extra="legbye">
-                        <span>Lb</span>
-                        <span class="circle-btn-label">Leg Bye</span>
-                    </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="action-buttons-row">
-                    <div class="undo-btn-circle" id="undo-btn-compact">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <button class="btn-outline btn-small" id="swap-batsmen-btn-compact">
-                        <i class="fas fa-random"></i> Swap Batsmen
-                    </button>
-                    <button class="btn-outline btn-small" id="change-bowler-btn-compact">
-                        <i class="fas fa-baseball-ball"></i> Change Bowler
-                    </button>
-                    <button class="btn-outline" id="view-stats-btn-compact">
-                        <i class="fas fa-chart-bar"></i> Stats
-                    </button>
-                    <button class="btn" id="end-innings-btn-compact">
-                        <i class="fas fa-flag-checkered"></i> End Innings
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Player Management Section -->
-            <div class="player-management-section">
-                <div class="card-title" style="margin-bottom: 10px;">
-                    <i class="fas fa-users-cog"></i> Player Management
-                </div>
-                <div class="player-management-buttons">
-                    <button class="btn-outline btn-small" id="change-striker-btn-compact">
-                        <i class="fas fa-exchange-alt"></i> Change Striker
-                    </button>
-                    <button class="btn-outline btn-small" id="change-non-striker-btn-compact">
-                        <i class="fas fa-user-friends"></i> Change Non-Striker
-                    </button>
-                    <button class="btn-outline btn-small" id="new-batsman-btn-compact">
-                        <i class="fas fa-user-plus"></i> New Batsman
-                    </button>
-                    <button class="btn-outline btn-small" id="back-to-setup-compact">
-                        <i class="fas fa-cog"></i> Modify Setup
-                    </button>
                 </div>
             </div>
         </section>
@@ -2137,7 +1971,6 @@
             setupMobileMenu();
             setupNavigation();
             setupTeamSelectionEvents();
-            setupGoogleStyleScoreboard();
             console.log("App initialized successfully!");
         }
         
@@ -2239,7 +2072,7 @@
                 }
             });
             
-            // Declare winner button is now end innings button
+            // Stats button
             document.getElementById('view-stats-btn-compact').addEventListener('click', showStatsModal);
             
             // New match button
@@ -2353,7 +2186,7 @@
             });
             
             // Extra buttons
-            document.querySelectorAll('.extra-circle-btn').forEach(button => {
+            document.querySelectorAll('.extra-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     if (!currentMatchState.isMatchStarted || tournamentData.sport !== 'cricket') {
                         alert("Please start the match first!");
@@ -2374,10 +2207,12 @@
                         addCricketExtra('wide', 1);
                     } else if (extra === 'noball') {
                         addCricketExtra('noball', 1);
+                    } else if (extra === 'noball4') {
+                        addCricketExtra('noball', 4);
+                    } else if (extra === 'noball6') {
+                        addCricketExtra('noball', 6);
                     } else if (extra === 'bye') {
                         addCricketExtra('bye', 1);
-                    } else if (extra === 'legbye') {
-                        addCricketExtra('legbye', 1);
                     }
                     
                     // Update player stats
@@ -2385,290 +2220,9 @@
                     
                     // Add to history
                     currentMatchState.actionHistory.push(action);
-                    updateCricketDisplay();
-                    updateGoogleStyleScoreboard();
+                    updateCompactLiveScoring();
                 });
             });
-        }
-        
-        // Set up Google style scoreboard with sample data
-        function setupGoogleStyleScoreboard() {
-            // Set initial sample data (like in the uploaded image)
-            document.getElementById('tournament-display-name-google').textContent = tournamentData.name;
-            document.getElementById('team1-name-google').textContent = 'Australia';
-            document.getElementById('team2-name-google').textContent = 'England';
-            
-            document.getElementById('team1-score-google').textContent = '213/8';
-            document.getElementById('team1-overs-google').textContent = '68 overs';
-            
-            document.getElementById('team2-score-google').textContent = '371';
-            document.getElementById('team2-overs-google').textContent = '91.2 overs';
-            
-            document.getElementById('target-value-google').textContent = '158 runs';
-            document.getElementById('trail-by-google').textContent = '158 runs';
-            document.getElementById('current-rr-google').textContent = '3.13';
-            document.getElementById('required-rr-google').textContent = '3.50';
-            
-            document.getElementById('striker-name-google').textContent = 'B. Stokes';
-            document.getElementById('striker-runs-google').textContent = '45*';
-            document.getElementById('striker-balls-google').textContent = '151 balls';
-            
-            document.getElementById('non-striker-name-google').textContent = 'J. Archer';
-            document.getElementById('non-striker-runs-google').textContent = '30*';
-            document.getElementById('non-striker-balls-google').textContent = '48 balls';
-            
-            document.getElementById('bowler-name-google').textContent = 'N. Lyon';
-            document.getElementById('bowler-stats-google').textContent = '2/51';
-            document.getElementById('bowler-overs-google').textContent = '22.0 overs';
-            
-            document.getElementById('other-bowler1-name-google').textContent = 'C. Green';
-            document.getElementById('other-bowler1-stats-google').textContent = '1/22';
-            document.getElementById('other-bowler1-overs-google').textContent = '8.0 overs';
-            
-            document.getElementById('match-progress-text').textContent = 'Test 3 of 5 (AUS leads 2-0) • End of day 2';
-            
-            // Set batting team
-            document.getElementById('team1-score-card').classList.add('batting');
-            
-            // Initialize over balls
-            updateCurrentOverBallsGoogle();
-            
-            // Initialize wickets display
-            updateWicketsDisplayGoogle();
-        }
-        
-        // Update current over balls for Google style
-        function updateCurrentOverBallsGoogle() {
-            const currentOverBallsContainer = document.getElementById('current-over-balls-google');
-            currentOverBallsContainer.innerHTML = '';
-            
-            // Sample over balls
-            const sampleBalls = [
-                { type: 'run', value: 0 },
-                { type: 'run', value: 0 },
-                { type: 'run', value: 0 },
-                { type: 'run', value: 0 },
-                { type: 'run', value: 0 },
-                { type: 'run', value: 0 }
-            ];
-            
-            sampleBalls.forEach((ball, index) => {
-                const ballElement = document.createElement('div');
-                ballElement.className = `over-ball ${ball.type === 'run' ? (ball.value === 0 ? 'dot' : `run-${ball.value}`) : ball.type}`;
-                
-                let displayText = '';
-                if (ball.type === 'run') {
-                    displayText = ball.value === 0 ? '•' : ball.value;
-                } else if (ball.type === 'wicket') {
-                    displayText = 'W';
-                }
-                
-                ballElement.textContent = displayText;
-                currentOverBallsContainer.appendChild(ballElement);
-            });
-        }
-        
-        // Update wickets display for Google style
-        function updateWicketsDisplayGoogle() {
-            const wicketsDisplay = document.getElementById('wickets-display-google');
-            wicketsDisplay.innerHTML = '';
-            
-            for (let i = 0; i < 10; i++) {
-                const wicketDot = document.createElement('div');
-                wicketDot.className = `wicket-dot ${i < 8 ? 'taken' : 'remaining'}`;
-                wicketDot.textContent = i < 8 ? 'W' : i + 1;
-                wicketsDisplay.appendChild(wicketDot);
-            }
-        }
-        
-        // Update Google style scoreboard
-        function updateGoogleStyleScoreboard() {
-            if (!cricketMatchState.battingTeam || !cricketMatchState.bowlingTeam) return;
-            
-            // Update tournament name
-            document.getElementById('tournament-display-name-google').textContent = tournamentData.name;
-            
-            // Update team names
-            document.getElementById('team1-name-google').textContent = currentMatchState.team1.name;
-            document.getElementById('team2-name-google').textContent = currentMatchState.team2.name;
-            
-            // Determine which team is batting
-            const battingTeamId = cricketMatchState.battingTeam.id;
-            const bowlingTeamId = cricketMatchState.bowlingTeam.id;
-            
-            // Update scores
-            if (battingTeamId === currentMatchState.team1.id) {
-                // Team 1 is batting
-                document.getElementById('team1-score-google').textContent = `${cricketMatchState.totalRuns}/${cricketMatchState.wickets}`;
-                document.getElementById('team1-overs-google').textContent = `${cricketMatchState.currentOver}.${cricketMatchState.ballsInOver} overs`;
-                document.getElementById('team1-status-google').textContent = 'BATTING';
-                document.getElementById('team1-status-google').style.color = 'var(--accent-green)';
-                
-                if (currentMatchState.innings === 2) {
-                    document.getElementById('team2-score-google').textContent = cricketMatchState.target - 1;
-                    document.getElementById('team2-overs-google').textContent = `${tournamentData.sportSpecific.oversPerInnings} overs`;
-                    document.getElementById('team2-status-google').textContent = '1st Innings';
-                    document.getElementById('team2-status-google').style.color = 'var(--text-secondary)';
-                }
-                
-                // Set batting indicator
-                document.getElementById('team1-score-card').classList.add('batting');
-                document.getElementById('team2-score-card').classList.remove('batting');
-            } else {
-                // Team 2 is batting
-                document.getElementById('team2-score-google').textContent = `${cricketMatchState.totalRuns}/${cricketMatchState.wickets}`;
-                document.getElementById('team2-overs-google').textContent = `${cricketMatchState.currentOver}.${cricketMatchState.ballsInOver} overs`;
-                document.getElementById('team2-status-google').textContent = 'BATTING';
-                document.getElementById('team2-status-google').style.color = 'var(--accent-green)';
-                
-                if (currentMatchState.innings === 2) {
-                    document.getElementById('team1-score-google').textContent = cricketMatchState.target - 1;
-                    document.getElementById('team1-overs-google').textContent = `${tournamentData.sportSpecific.oversPerInnings} overs`;
-                    document.getElementById('team1-status-google').textContent = '1st Innings';
-                    document.getElementById('team1-status-google').style.color = 'var(--text-secondary)';
-                }
-                
-                // Set batting indicator
-                document.getElementById('team2-score-card').classList.add('batting');
-                document.getElementById('team1-score-card').classList.remove('batting');
-            }
-            
-            // Update match info
-            if (currentMatchState.innings === 2) {
-                const target = cricketMatchState.target;
-                const runsRequired = target - cricketMatchState.totalRuns;
-                
-                document.getElementById('target-value-google').textContent = `${target} runs`;
-                document.getElementById('trail-by-google').textContent = `${runsRequired} runs`;
-                
-                // Calculate run rates
-                const oversBowled = cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6);
-                const currentRR = oversBowled > 0 ? (cricketMatchState.totalRuns / oversBowled).toFixed(2) : '0.00';
-                
-                const totalOvers = tournamentData.sportSpecific.oversPerInnings;
-                const remainingOvers = totalOvers - oversBowled;
-                const requiredRR = remainingOvers > 0 ? (runsRequired / remainingOvers).toFixed(2) : '0.00';
-                
-                document.getElementById('current-rr-google').textContent = currentRR;
-                document.getElementById('required-rr-google').textContent = requiredRR;
-            } else {
-                document.getElementById('target-value-google').textContent = '-';
-                document.getElementById('trail-by-google').textContent = '-';
-                
-                const oversBowled = cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6);
-                const currentRR = oversBowled > 0 ? (cricketMatchState.totalRuns / oversBowled).toFixed(2) : '0.00';
-                
-                document.getElementById('current-rr-google').textContent = currentRR;
-                document.getElementById('required-rr-google').textContent = '-';
-            }
-            
-            // Update players
-            if (cricketMatchState.striker) {
-                const strikerStat = cricketMatchState.playerStats[`${cricketMatchState.striker.id}`];
-                if (strikerStat) {
-                    document.getElementById('striker-name-google').textContent = cricketMatchState.striker.name;
-                    document.getElementById('striker-runs-google').textContent = `${strikerStat.runs}${strikerStat.isOut ? '' : '*'}`;
-                    document.getElementById('striker-balls-google').textContent = `${strikerStat.balls} balls`;
-                }
-            }
-            
-            if (cricketMatchState.nonStriker) {
-                const nonStrikerStat = cricketMatchState.playerStats[`${cricketMatchState.nonStriker.id}`];
-                if (nonStrikerStat) {
-                    document.getElementById('non-striker-name-google').textContent = cricketMatchState.nonStriker.name;
-                    document.getElementById('non-striker-runs-google').textContent = `${nonStrikerStat.runs}${nonStrikerStat.isOut ? '' : '*'}`;
-                    document.getElementById('non-striker-balls-google').textContent = `${nonStrikerStat.balls} balls`;
-                }
-            }
-            
-            if (cricketMatchState.currentBowler) {
-                const bowlerStat = cricketMatchState.playerStats[`${cricketMatchState.currentBowler.id}`];
-                if (bowlerStat) {
-                    const overs = Math.floor(bowlerStat.ballsBowled / 6) + (bowlerStat.ballsBowled % 6) / 10;
-                    document.getElementById('bowler-name-google').textContent = cricketMatchState.currentBowler.name;
-                    document.getElementById('bowler-stats-google').textContent = `${bowlerStat.wickets}/${bowlerStat.runsConceded}`;
-                    document.getElementById('bowler-overs-google').textContent = `${overs.toFixed(1)} overs`;
-                }
-            }
-            
-            // Update match status text
-            const statusText = currentMatchState.innings === 1 ? 'Day 1 • 1st Innings' : 'Day 1 • 2nd Innings';
-            document.getElementById('match-status-text-google').textContent = statusText;
-            
-            // Update current over balls
-            updateCurrentOverBallsGoogleLive();
-            
-            // Update wickets display
-            updateWicketsDisplayGoogleLive();
-        }
-        
-        // Update current over balls for live match
-        function updateCurrentOverBallsGoogleLive() {
-            const currentOverBallsContainer = document.getElementById('current-over-balls-google');
-            currentOverBallsContainer.innerHTML = '';
-            
-            cricketMatchState.currentOverBalls.forEach((ball, index) => {
-                const ballElement = document.createElement('div');
-                
-                let ballClass = 'over-ball ';
-                let displayText = '';
-                
-                if (ball.type === 'run') {
-                    if (ball.value === 0) {
-                        ballClass += 'dot';
-                        displayText = '•';
-                    } else {
-                        ballClass += `run-${ball.value}`;
-                        displayText = ball.value;
-                    }
-                } else if (ball.type === 'wicket') {
-                    ballClass += 'wicket';
-                    displayText = 'W';
-                } else if (ball.type === 'extra') {
-                    if (ball.value === 'Wd') {
-                        ballClass += 'wide';
-                        displayText = 'Wd';
-                    } else if (ball.value === 'Nb') {
-                        ballClass += 'noball';
-                        displayText = 'Nb';
-                    } else {
-                        ballClass += 'dot';
-                        displayText = ball.value;
-                    }
-                }
-                
-                ballElement.className = ballClass;
-                ballElement.textContent = displayText;
-                currentOverBallsContainer.appendChild(ballElement);
-            });
-            
-            // Add placeholder balls for remaining balls in the over
-            const remainingBalls = 6 - cricketMatchState.currentOverBalls.length;
-            for (let i = 0; i < remainingBalls; i++) {
-                const ballElement = document.createElement('div');
-                ballElement.className = 'over-ball dot';
-                ballElement.textContent = '•';
-                currentOverBallsContainer.appendChild(ballElement);
-            }
-        }
-        
-        // Update wickets display for live match
-        function updateWicketsDisplayGoogleLive() {
-            const wicketsDisplay = document.getElementById('wickets-display-google');
-            wicketsDisplay.innerHTML = '';
-            
-            // Update wickets count in title
-            const wicketsTitle = document.querySelector('.wickets-box .card-title');
-            if (wicketsTitle) {
-                wicketsTitle.innerHTML = `<i class="fas fa-skull-crossbones"></i> Wickets (${cricketMatchState.wickets}/10)`;
-            }
-            
-            for (let i = 0; i < 10; i++) {
-                const wicketDot = document.createElement('div');
-                wicketDot.className = `wicket-dot ${i < cricketMatchState.wickets ? 'taken' : 'remaining'}`;
-                wicketDot.textContent = i < cricketMatchState.wickets ? 'W' : i + 1;
-                wicketsDisplay.appendChild(wicketDot);
-            }
         }
         
         // Set up mobile menu toggle
@@ -2818,6 +2372,7 @@
                 currentStep = 2;
             } else if (sectionId === 'live-scoring') {
                 currentStep = 5;
+                updateCompactLiveScoring();
             }
             
             updateNavigation();
@@ -3160,42 +2715,272 @@
         
         // Start the match
         function startMatch() {
-            document.getElementById('tournament-display-name').textContent = tournamentData.name;
-            document.getElementById('team1-name-compact').textContent = currentMatchState.team1.name;
-            document.getElementById('team2-name-compact').textContent = currentMatchState.team2.name;
-            document.getElementById('team1-logo-tiny').textContent = `T${currentMatchState.team1.id}`;
-            document.getElementById('team2-logo-tiny').textContent = `T${currentMatchState.team2.id}`;
+            // Update tournament name
+            document.getElementById('tournament-title-compact').textContent = tournamentData.name;
             
-            // Update Google style scoreboard
-            updateGoogleStyleScoreboard();
-            
-            // Update batting team display
-            updateBattingTeamDisplay();
-            
-            // Update current players display
-            updateCurrentPlayersDisplay();
-            
-            // Initialize display
-            updateCricketDisplay();
+            // Update compact live scoring display
+            updateCompactLiveScoring();
             
             showNotification("Match started! " + cricketMatchState.battingTeam.name + " is batting first.", 'success');
         }
         
-        // Update batting team display
-        function updateBattingTeamDisplay() {
-            // Reset both boxes
-            document.getElementById('team1-box').classList.remove('batting');
-            document.getElementById('team2-box').classList.remove('batting');
-            document.getElementById('team1-status-badge').style.display = 'none';
-            document.getElementById('team2-status-badge').style.display = 'none';
+        // Update compact live scoring display
+        function updateCompactLiveScoring() {
+            if (!cricketMatchState.battingTeam || !cricketMatchState.bowlingTeam) return;
             
-            // Set batting team
-            if (cricketMatchState.battingTeam.id === currentMatchState.team1.id) {
-                document.getElementById('team1-box').classList.add('batting');
-                document.getElementById('team1-status-badge').style.display = 'inline-block';
+            // Update teams scores side by side
+            updateTeamsScoreDisplay();
+            
+            // Update match status
+            updateMatchStatus();
+            
+            // Update batters and bowlers (boss layout)
+            updatePlayersDisplay();
+            
+            // Update over balls and wickets
+            updateOverAndWickets();
+            
+            // Update wickets count
+            document.getElementById('wickets-count').textContent = cricketMatchState.wickets;
+        }
+        
+        // Update teams score display
+        function updateTeamsScoreDisplay() {
+            const teamsRow = document.getElementById('teams-score-row');
+            teamsRow.innerHTML = '';
+            
+            // Team 1
+            const team1Box = document.createElement('div');
+            team1Box.className = 'team-box';
+            
+            const team1Score = cricketMatchState.battingTeam.id === currentMatchState.team1.id ? 
+                cricketMatchState.totalRuns : 
+                (currentMatchState.innings === 2 && cricketMatchState.target > 0 ? cricketMatchState.target - 1 : 0);
+                
+            const team1Wickets = cricketMatchState.battingTeam.id === currentMatchState.team1.id ? 
+                cricketMatchState.wickets : 0;
+                
+            const team1Overs = cricketMatchState.battingTeam.id === currentMatchState.team1.id ? 
+                `${cricketMatchState.currentOver}.${cricketMatchState.ballsInOver}` : 
+                (currentMatchState.innings === 2 ? tournamentData.sportSpecific.oversPerInnings : '0.0');
+            
+            team1Box.innerHTML = `
+                <div class="team-name-compact">${currentMatchState.team1.name}</div>
+                <div class="team-score-compact">${team1Score}<span class="team-wickets">/${team1Wickets}</span></div>
+                <div class="team-overs-compact">${team1Overs} overs</div>
+            `;
+            
+            // Team 2
+            const team2Box = document.createElement('div');
+            team2Box.className = 'team-box';
+            
+            const team2Score = cricketMatchState.battingTeam.id === currentMatchState.team2.id ? 
+                cricketMatchState.totalRuns : 
+                (currentMatchState.innings === 2 && cricketMatchState.target > 0 ? cricketMatchState.target - 1 : 0);
+                
+            const team2Wickets = cricketMatchState.battingTeam.id === currentMatchState.team2.id ? 
+                cricketMatchState.wickets : 0;
+                
+            const team2Overs = cricketMatchState.battingTeam.id === currentMatchState.team2.id ? 
+                `${cricketMatchState.currentOver}.${cricketMatchState.ballsInOver}` : 
+                (currentMatchState.innings === 2 ? tournamentData.sportSpecific.oversPerInnings : '0.0');
+            
+            team2Box.innerHTML = `
+                <div class="team-name-compact">${currentMatchState.team2.name}</div>
+                <div class="team-score-compact">${team2Score}<span class="team-wickets">/${team2Wickets}</span></div>
+                <div class="team-overs-compact">${team2Overs} overs</div>
+            `;
+            
+            teamsRow.appendChild(team1Box);
+            teamsRow.appendChild(team2Box);
+            
+            // Highlight batting team
+            const battingTeamId = cricketMatchState.battingTeam.id;
+            const teamBoxes = teamsRow.querySelectorAll('.team-box');
+            
+            teamBoxes.forEach(box => {
+                box.style.border = '1px solid transparent';
+            });
+            
+            if (battingTeamId === currentMatchState.team1.id) {
+                team1Box.style.border = '1px solid var(--accent-green)';
+                team1Box.style.backgroundColor = 'rgba(0, 255, 139, 0.05)';
             } else {
-                document.getElementById('team2-box').classList.add('batting');
-                document.getElementById('team2-status-badge').style.display = 'inline-block';
+                team2Box.style.border = '1px solid var(--accent-green)';
+                team2Box.style.backgroundColor = 'rgba(0, 255, 139, 0.05)';
+            }
+        }
+        
+        // Update match status
+        function updateMatchStatus() {
+            // Calculate run rate
+            const oversBowled = cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6);
+            const runRate = oversBowled > 0 ? (cricketMatchState.totalRuns / oversBowled).toFixed(2) : '0.00';
+            
+            document.getElementById('run-rate-compact').textContent = runRate;
+            
+            // Update target
+            if (currentMatchState.innings === 2) {
+                document.getElementById('target-display-compact').textContent = cricketMatchState.target;
+            } else {
+                document.getElementById('target-display-compact').textContent = '-';
+            }
+        }
+        
+        // Update players display (boss layout)
+        function updatePlayersDisplay() {
+            // Update batters (left side)
+            const battersList = document.getElementById('batters-list-compact');
+            battersList.innerHTML = '';
+            
+            if (cricketMatchState.striker) {
+                const strikerStat = cricketMatchState.playerStats[`${cricketMatchState.striker.id}`];
+                const strikerItem = document.createElement('div');
+                strikerItem.className = 'batter-item-compact';
+                strikerItem.innerHTML = `
+                    <div class="batter-info">
+                        <div class="strike-indicator"></div>
+                        <div class="player-name">${cricketMatchState.striker.name}</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="player-runs">${strikerStat ? strikerStat.runs : 0}${strikerStat && !strikerStat.isOut ? '*' : ''}</div>
+                        <div class="player-details">${strikerStat ? strikerStat.balls : 0} balls</div>
+                    </div>
+                `;
+                battersList.appendChild(strikerItem);
+            }
+            
+            if (cricketMatchState.nonStriker) {
+                const nonStrikerStat = cricketMatchState.playerStats[`${cricketMatchState.nonStriker.id}`];
+                const nonStrikerItem = document.createElement('div');
+                nonStrikerItem.className = 'batter-item-compact';
+                nonStrikerItem.innerHTML = `
+                    <div class="batter-info">
+                        <div class="strike-indicator" style="background-color: transparent;"></div>
+                        <div class="player-name">${cricketMatchState.nonStriker.name}</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="player-runs">${nonStrikerStat ? nonStrikerStat.runs : 0}${nonStrikerStat && !nonStrikerStat.isOut ? '*' : ''}</div>
+                        <div class="player-details">${nonStrikerStat ? nonStrikerStat.balls : 0} balls</div>
+                    </div>
+                `;
+                battersList.appendChild(nonStrikerItem);
+            }
+            
+            // Update bowlers (right side)
+            const bowlersList = document.getElementById('bowlers-list-compact');
+            bowlersList.innerHTML = '';
+            
+            if (cricketMatchState.currentBowler) {
+                const bowlerStat = cricketMatchState.playerStats[`${cricketMatchState.currentBowler.id}`];
+                const bowlerItem = document.createElement('div');
+                bowlerItem.className = 'bowler-item-compact';
+                
+                const overs = bowlerStat ? (Math.floor(bowlerStat.ballsBowled / 6) + (bowlerStat.ballsBowled % 6) / 10) : 0;
+                const wickets = bowlerStat ? bowlerStat.wickets : 0;
+                const runs = bowlerStat ? bowlerStat.runsConceded : 0;
+                
+                bowlerItem.innerHTML = `
+                    <div class="player-name">${cricketMatchState.currentBowler.name}</div>
+                    <div class="player-stats">
+                        <div class="player-runs">${wickets}/${runs}</div>
+                        <div class="player-details">${overs.toFixed(1)} overs</div>
+                    </div>
+                `;
+                bowlersList.appendChild(bowlerItem);
+            }
+            
+            // Add another recent bowler if available
+            const otherBowlers = cricketMatchState.availableBowlers.filter(
+                p => p.id !== cricketMatchState.currentBowler?.id
+            );
+            
+            if (otherBowlers.length > 0) {
+                const otherBowler = otherBowlers[0];
+                const otherBowlerStat = cricketMatchState.playerStats[`${otherBowler.id}`];
+                const otherBowlerItem = document.createElement('div');
+                otherBowlerItem.className = 'bowler-item-compact';
+                
+                const overs = otherBowlerStat ? (Math.floor(otherBowlerStat.ballsBowled / 6) + (otherBowlerStat.ballsBowled % 6) / 10) : 0;
+                const wickets = otherBowlerStat ? otherBowlerStat.wickets : 0;
+                const runs = otherBowlerStat ? otherBowlerStat.runsConceded : 0;
+                
+                otherBowlerItem.innerHTML = `
+                    <div class="player-name">${otherBowler.name}</div>
+                    <div class="player-stats">
+                        <div class="player-runs">${wickets}/${runs}</div>
+                        <div class="player-details">${overs.toFixed(1)} overs</div>
+                    </div>
+                `;
+                bowlersList.appendChild(otherBowlerItem);
+            }
+        }
+        
+        // Update over and wickets display
+        function updateOverAndWickets() {
+            // Update over balls
+            const overBallsContainer = document.getElementById('current-over-balls-compact');
+            overBallsContainer.innerHTML = '';
+            
+            cricketMatchState.currentOverBalls.forEach((ball, index) => {
+                const ballElement = document.createElement('div');
+                
+                let ballClass = 'over-ball-compact ';
+                let displayText = '';
+                
+                if (ball.type === 'run') {
+                    if (ball.value === 0) {
+                        ballClass += 'dot';
+                        displayText = '•';
+                    } else {
+                        ballClass += `run-${ball.value}`;
+                        displayText = ball.value;
+                    }
+                } else if (ball.type === 'wicket') {
+                    ballClass += 'wicket';
+                    displayText = 'W';
+                } else if (ball.type === 'extra') {
+                    if (ball.value === 'Wd') {
+                        ballClass += 'wide';
+                        displayText = 'Wd';
+                    } else if (ball.value === 'Nb') {
+                        ballClass += 'noball';
+                        displayText = 'Nb';
+                    } else if (ball.value === 'B') {
+                        ballClass += 'dot';
+                        displayText = 'B';
+                    } else if (ball.value === 'Lb') {
+                        ballClass += 'dot';
+                        displayText = 'Lb';
+                    } else if (ball.value.includes('Nb+')) {
+                        ballClass += 'noball';
+                        displayText = ball.value;
+                    }
+                }
+                
+                ballElement.className = ballClass;
+                ballElement.textContent = displayText;
+                overBallsContainer.appendChild(ballElement);
+            });
+            
+            // Add placeholder balls for remaining balls in the over
+            const remainingBalls = 6 - cricketMatchState.currentOverBalls.length;
+            for (let i = 0; i < remainingBalls; i++) {
+                const ballElement = document.createElement('div');
+                ballElement.className = 'over-ball-compact dot';
+                ballElement.textContent = '•';
+                overBallsContainer.appendChild(ballElement);
+            }
+            
+            // Update wickets display
+            const wicketsDisplay = document.getElementById('wickets-display-compact');
+            wicketsDisplay.innerHTML = '';
+            
+            for (let i = 0; i < 10; i++) {
+                const wicketDot = document.createElement('div');
+                wicketDot.className = `wicket-dot-compact ${i < cricketMatchState.wickets ? 'taken' : 'remaining'}`;
+                wicketDot.textContent = i < cricketMatchState.wickets ? 'W' : i + 1;
+                wicketsDisplay.appendChild(wicketDot);
             }
         }
         
@@ -3363,9 +3148,8 @@
             // Update player stats
             updatePlayerStatsAfterBall();
             
-            // Update displays
-            updateCricketDisplay();
-            updateGoogleStyleScoreboard();
+            // Update compact live scoring display
+            updateCompactLiveScoring();
             
             // Check if innings is complete
             if (cricketMatchState.wickets >= 10 || 
@@ -3433,9 +3217,6 @@
                     }
                 }
             }
-            
-            // Update current players display
-            updateCurrentPlayersDisplay();
         }
         
         // Swap batsmen
@@ -3445,62 +3226,7 @@
                 cricketMatchState.striker = cricketMatchState.nonStriker;
                 cricketMatchState.nonStriker = temp;
                 
-                updateCurrentPlayersDisplay();
-                updateGoogleStyleScoreboard();
-            }
-        }
-        
-        // Update current players display
-        function updateCurrentPlayersDisplay() {
-            const battersList = document.getElementById('current-batters-list-compact');
-            battersList.innerHTML = '';
-            
-            if (cricketMatchState.striker) {
-                const strikerStat = cricketMatchState.playerStats[`${cricketMatchState.striker.id}`];
-                const strikerRow = document.createElement('div');
-                strikerRow.className = 'batter-item';
-                strikerRow.innerHTML = `
-                    <div class="batter-info-small">
-                        <div class="strike-dot"></div>
-                        <div class="batter-name-small">${cricketMatchState.striker.name}</div>
-                    </div>
-                    <div class="batter-stats-small">
-                        <div class="batter-runs-small">${strikerStat ? strikerStat.runs : 0}</div>
-                        <div class="batter-balls-small">${strikerStat ? strikerStat.balls : 0} balls</div>
-                    </div>
-                `;
-                battersList.appendChild(strikerRow);
-            }
-            
-            if (cricketMatchState.nonStriker) {
-                const nonStrikerStat = cricketMatchState.playerStats[`${cricketMatchState.nonStriker.id}`];
-                const nonStrikerRow = document.createElement('div');
-                nonStrikerRow.className = 'batter-item';
-                nonStrikerRow.innerHTML = `
-                    <div class="batter-info-small">
-                        <div class="strike-dot" style="background-color: transparent;"></div>
-                        <div class="batter-name-small">${cricketMatchState.nonStriker.name}</div>
-                    </div>
-                    <div class="batter-stats-small">
-                        <div class="batter-runs-small">${nonStrikerStat ? nonStrikerStat.runs : 0}</div>
-                        <div class="batter-balls-small">${nonStrikerStat ? nonStrikerStat.balls : 0} balls</div>
-                    </div>
-                `;
-                battersList.appendChild(nonStrikerRow);
-            }
-            
-            // Update bowler display
-            if (cricketMatchState.currentBowler) {
-                const bowlerStat = cricketMatchState.playerStats[`${cricketMatchState.currentBowler.id}`];
-                document.getElementById('current-bowler-name-compact').textContent = cricketMatchState.currentBowler.name;
-                
-                if (bowlerStat) {
-                    const overs = Math.floor(bowlerStat.ballsBowled / 6) + (bowlerStat.ballsBowled % 6) / 10;
-                    const economy = overs > 0 ? (bowlerStat.runsConceded / overs).toFixed(2) : '0.00';
-                    
-                    document.getElementById('current-bowler-overs-compact').textContent = overs.toFixed(1);
-                    document.getElementById('current-bowler-economy-compact').textContent = economy + ' econ';
-                }
+                updateCompactLiveScoring();
             }
         }
         
@@ -3641,8 +3367,7 @@
                     break;
             }
             
-            updateCurrentPlayersDisplay();
-            updateGoogleStyleScoreboard();
+            updateCompactLiveScoring();
             document.getElementById('playerModal').classList.remove('active');
             showNotification(`Player ${player.name} selected`, 'success');
         }
@@ -3662,116 +3387,11 @@
                 currentMatchState.innings = lastAction.matchState.innings;
                 currentMatchState.actionHistory = lastAction.matchState.actionHistory;
                 
-                updateCricketDisplay();
-                updateGoogleStyleScoreboard();
-                updateCurrentPlayersDisplay();
-                updateBattingTeamDisplay();
+                updateCompactLiveScoring();
                 
                 showNotification('Undid last action', 'success');
             } else {
                 showNotification('Cannot undo this action', 'warning');
-            }
-        }
-        
-        // Update cricket display
-        function updateCricketDisplay() {
-            const score = cricketMatchState.totalRuns;
-            const wickets = cricketMatchState.wickets;
-            const overDisplay = cricketMatchState.currentOver + 
-                (cricketMatchState.ballsInOver > 0 ? `.${cricketMatchState.ballsInOver}` : '');
-            
-            // Update scoreboard
-            if (cricketMatchState.battingTeam.id === currentMatchState.team1.id) {
-                document.getElementById('team1-score-compact').textContent = score;
-                document.getElementById('team1-wickets-compact').textContent = `/${wickets}`;
-                document.getElementById('team1-overs-compact').textContent = `(${overDisplay})`;
-                document.getElementById('team2-score-compact').textContent = 'To Bat';
-                document.getElementById('team2-wickets-compact').textContent = '';
-                document.getElementById('team2-overs-compact').textContent = '';
-            } else {
-                document.getElementById('team2-score-compact').textContent = score;
-                document.getElementById('team2-wickets-compact').textContent = `/${wickets}`;
-                document.getElementById('team2-overs-compact').textContent = `(${overDisplay})`;
-                document.getElementById('team1-score-compact').textContent = 'To Bat';
-                document.getElementById('team1-wickets-compact').textContent = '';
-                document.getElementById('team1-overs-compact').textContent = '';
-            }
-            
-            // Update target
-            if (currentMatchState.innings === 2) {
-                document.getElementById('target-display-compact').textContent = cricketMatchState.target;
-            } else {
-                document.getElementById('target-display-compact').textContent = '-';
-            }
-            
-            // Calculate match stats
-            const totalBalls = tournamentData.sportSpecific.oversPerInnings * 6;
-            const ballsBowled = cricketMatchState.currentOver * 6 + cricketMatchState.legalBallsThisOver;
-            const ballsRemaining = Math.max(0, totalBalls - ballsBowled);
-            
-            const oversBowled = cricketMatchState.currentOver + (cricketMatchState.ballsInOver / 6);
-            const runRate = oversBowled > 0 ? (cricketMatchState.totalRuns / oversBowled).toFixed(2) : '0.00';
-            
-            document.getElementById('current-run-rate-compact').textContent = runRate;
-            document.getElementById('balls-remaining-compact').textContent = ballsRemaining;
-            
-            if (currentMatchState.innings === 2) {
-                const remainingRuns = cricketMatchState.target - cricketMatchState.totalRuns;
-                const requiredRate = ballsRemaining > 0 ? (remainingRuns / (ballsRemaining / 6)).toFixed(2) : '0.00';
-                
-                document.getElementById('required-run-rate-compact').textContent = requiredRate;
-                document.getElementById('runs-required-compact').textContent = remainingRuns > 0 ? remainingRuns : 'Match Won';
-            } else {
-                document.getElementById('required-run-rate-compact').textContent = '-';
-                document.getElementById('runs-required-compact').textContent = '-';
-            }
-            
-            updateWicketsDisplay();
-            updateCurrentOverBalls();
-        }
-        
-        // Update wickets display
-        function updateWicketsDisplay() {
-            const wicketsDisplay = document.getElementById('wickets-display-compact');
-            wicketsDisplay.innerHTML = '';
-            
-            for (let i = 0; i < 10; i++) {
-                const wicketDot = document.createElement('div');
-                wicketDot.className = `wicket-dot-compact ${i < cricketMatchState.wickets ? 'taken' : 'remaining'}`;
-                wicketDot.textContent = i < cricketMatchState.wickets ? 'W' : i + 1;
-                wicketsDisplay.appendChild(wicketDot);
-            }
-        }
-        
-        // Update current over balls
-        function updateCurrentOverBalls() {
-            const currentOverBallsContainer = document.getElementById('current-over-balls-compact');
-            currentOverBallsContainer.innerHTML = '';
-            
-            cricketMatchState.currentOverBalls.forEach((ball, index) => {
-                const ballElement = document.createElement('div');
-                ballElement.className = `over-ball-compact ${ball.type === 'run' ? `run-${ball.value}` : ball.type} ${ball.type === 'extra' ? ball.value.toLowerCase() : ''}`;
-                
-                let displayText = '';
-                if (ball.type === 'run') {
-                    displayText = ball.value;
-                } else if (ball.type === 'wicket') {
-                    displayText = 'W';
-                } else if (ball.type === 'extra') {
-                    displayText = ball.value;
-                }
-                
-                ballElement.textContent = displayText;
-                currentOverBallsContainer.appendChild(ballElement);
-            });
-            
-            // Add placeholder balls for remaining balls in the over
-            const remainingBalls = 6 - cricketMatchState.currentOverBalls.length;
-            for (let i = 0; i < remainingBalls; i++) {
-                const ballElement = document.createElement('div');
-                ballElement.className = 'over-ball-compact dot';
-                ballElement.textContent = '•';
-                currentOverBallsContainer.appendChild(ballElement);
             }
         }
         
@@ -3819,11 +3439,8 @@
                 cricketMatchState.currentBowler = cricketMatchState.availableBowlers[0];
             }
             
-            // Update batting team display
-            updateBattingTeamDisplay();
-            updateCurrentPlayersDisplay();
-            updateCricketDisplay();
-            updateGoogleStyleScoreboard();
+            // Update compact live scoring display
+            updateCompactLiveScoring();
             
             showNotification(`First innings complete! ${cricketMatchState.battingTeam.name} needs ${cricketMatchState.target} runs to win.`, 'success');
         }
