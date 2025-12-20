@@ -6,9 +6,6 @@
     <title>ScoreMaster Pro | Multi-Sport Tournament Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <style>
         :root {
             --primary-dark: #0a0e17;
@@ -216,51 +213,6 @@
         .sport-name {
             font-size: 1.3rem;
             margin-bottom: 0;
-        }
-        
-        /* Share and Scan QR Buttons */
-        .share-scan-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-        
-        .share-btn, .scan-btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 200px;
-            justify-content: center;
-        }
-        
-        .share-btn {
-            background: linear-gradient(135deg, var(--accent-green), #00ccff);
-            color: var(--primary-dark);
-            border: none;
-        }
-        
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 255, 139, 0.4);
-        }
-        
-        .scan-btn {
-            background: transparent;
-            border: 2px solid var(--accent-green);
-            color: var(--accent-green);
-        }
-        
-        .scan-btn:hover {
-            background-color: rgba(0, 255, 139, 0.1);
-            transform: translateY(-3px);
         }
         
         /* Tournament Setup Section */
@@ -1444,6 +1396,17 @@
             font-size: 0.9rem;
         }
         
+        .scorecard-section {
+            margin-bottom: 15px;
+        }
+        
+        .scorecard-section-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
         /* Stats Modal */
         .stats-modal {
             display: none;
@@ -1514,259 +1477,6 @@
         }
         
         .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        
-        /* QR Code Modal */
-        .qr-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .qr-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .qr-content {
-            background-color: var(--card-dark);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 2px solid var(--accent-green);
-            text-align: center;
-        }
-        
-        .qr-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .qr-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-green);
-        }
-        
-        .close-qr {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-        }
-        
-        .qr-code-container {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 250px;
-        }
-        
-        .qr-instructions {
-            margin-top: 15px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* Scan QR Modal */
-        .scan-qr-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .scan-qr-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .scan-qr-content {
-            background-color: var(--card-dark);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 2px solid var(--accent-green);
-            text-align: center;
-        }
-        
-        .scan-qr-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .scan-qr-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-green);
-        }
-        
-        .close-scan-qr {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-        }
-        
-        .camera-container {
-            width: 100%;
-            height: 300px;
-            background-color: var(--secondary-dark);
-            border-radius: var(--border-radius);
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #camera-preview {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .camera-placeholder {
-            text-align: center;
-            color: var(--text-muted);
-        }
-        
-        .camera-placeholder i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            color: var(--accent-green);
-        }
-        
-        .manual-input-section {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .manual-input-section h4 {
-            margin-bottom: 10px;
-            color: var(--accent-green);
-        }
-        
-        /* Progress Bar */
-        .step-progress {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        
-        @media (max-width: 768px) {
-            .step-progress {
-                margin-bottom: 12px;
-            }
-        }
-        
-        .step-progress:before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--border-color);
-            z-index: 1;
-        }
-        
-        .step-progress:after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 0;
-            width: var(--progress-width, 0%);
-            height: 3px;
-            background-color: var(--accent-green);
-            z-index: 2;
-            transition: width 0.5s ease;
-        }
-        
-        .step-indicator {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--text-muted);
-            z-index: 3;
-            position: relative;
-            font-size: 0.9rem;
-        }
-        
-        .step-indicator.active {
-            background-color: var(--accent-green);
-            color: var(--primary-dark);
-        }
-        
-        .step-label {
-            position: absolute;
-            top: 35px;
-            width: 90px;
-            text-align: center;
-            left: -30px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        @media (max-width: 768px) {
-            .step-label {
-                font-size: 0.7rem;
-                width: 65px;
-                left: -18px;
-            }
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--secondary-dark);
-            padding: 15px 0;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
@@ -1925,44 +1635,9 @@
             transform: translateY(-3px);
         }
         
-        /* Share button in live scoring */
-        .share-score-btn {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-green), #00ccff);
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 99;
-            transition: var(--transition);
-        }
-        
-        .share-score-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 255, 139, 0.4);
-        }
-        
-        /* Imported data notification */
-        .import-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--accent-green);
-            color: var(--primary-dark);
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            z-index: 1000;
-            font-weight: 700;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.3s ease;
+        /* Scorecard button in winner section */
+        .scorecard-btn-winner {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -2052,16 +1727,6 @@
                     </div>
                     <h3 class="sport-name">Custom Sport</h3>
                 </div>
-            </div>
-            
-            <!-- Share and Scan QR Buttons -->
-            <div class="share-scan-buttons">
-                <button class="share-btn" id="share-tournament-btn">
-                    <i class="fas fa-share-alt"></i> Share Tournament
-                </button>
-                <button class="scan-btn" id="scan-qr-btn">
-                    <i class="fas fa-qrcode"></i> Scan QR Code
-                </button>
             </div>
             
             <div style="text-align: center; margin-top: 30px;">
@@ -2329,11 +1994,6 @@
         
         <!-- Live Scoring - Compact Android Layout -->
         <section id="live-scoring" class="dashboard-section">
-            <!-- Share button floating -->
-            <div class="share-score-btn" id="share-score-btn-compact" title="Share Score">
-                <i class="fas fa-share-alt"></i>
-            </div>
-            
             <div class="live-scoring-container">
                 <!-- Tournament Header -->
                 <div class="tournament-header-compact">
@@ -2536,9 +2196,6 @@
                         <button class="management-btn" id="new-batsman-btn-compact">
                             <i class="fas fa-user-plus"></i> New Batsman
                         </button>
-                        <button class="management-btn" id="scorecard-btn-compact">
-                            <i class="fas fa-list-ol"></i> Scorecard
-                        </button>
                         <button class="management-btn" id="back-to-setup-compact">
                             <i class="fas fa-cog"></i> Setup
                         </button>
@@ -2586,8 +2243,8 @@
                     <button class="btn-outline" id="back-to-dashboard-btn">
                         <i class="fas fa-home"></i> Back to Dashboard
                     </button>
-                    <button class="btn-outline" id="view-tournament-stats-btn">
-                        <i class="fas fa-chart-bar"></i> Tournament Stats
+                    <button class="btn" id="scorecard-btn-winner">
+                        <i class="fas fa-list-ol"></i> View Scorecard
                     </button>
                 </div>
             </div>
@@ -2655,74 +2312,6 @@
         </div>
     </div>
     
-    <!-- QR Code Share Modal -->
-    <div class="qr-modal" id="qrModal">
-        <div class="qr-content">
-            <div class="qr-header">
-                <h3 class="qr-title">Share Match Score</h3>
-                <button class="close-qr" id="closeQrModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <p>Scan this QR code to import match data to another device:</p>
-            
-            <div class="qr-code-container" id="qrCodeContainer">
-                <!-- QR code will be generated here -->
-                <div id="qrCodeDisplay"></div>
-            </div>
-            
-            <div class="qr-instructions">
-                <p><strong>Instructions:</strong></p>
-                <p>1. Open ScoreMaster Pro on another device</p>
-                <p>2. Tap "Scan QR Code" on the main dashboard</p>
-                <p>3. Scan this QR code to import match data</p>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <button class="btn" id="downloadQrBtn">
-                    <i class="fas fa-download"></i> Download QR Code
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Scan QR Code Modal -->
-    <div class="scan-qr-modal" id="scanQrModal">
-        <div class="scan-qr-content">
-            <div class="scan-qr-header">
-                <h3 class="scan-qr-title">Scan QR Code</h3>
-                <button class="close-scan-qr" id="closeScanQrModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <p>Scan a QR code to import match data:</p>
-            
-            <div class="camera-container" id="cameraContainer">
-                <!-- Camera preview will be shown here -->
-                <div class="camera-placeholder" id="cameraPlaceholder">
-                    <i class="fas fa-qrcode"></i>
-                    <p>Camera access required for scanning</p>
-                    <p>Allow camera permissions to scan QR codes</p>
-                </div>
-                <video id="camera-preview" style="display: none;"></video>
-                <canvas id="qr-canvas" style="display: none;"></canvas>
-            </div>
-            
-            <div class="manual-input-section">
-                <h4>Manual Import</h4>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">
-                    If you have the match data code, paste it below:
-                </p>
-                <textarea id="manualImportText" class="form-control" placeholder="Paste match data code here..." rows="4"></textarea>
-                <button class="btn" style="margin-top: 10px;" id="importManualDataBtn">
-                    <i class="fas fa-file-import"></i> Import Data
-                </button>
-            </div>
-        </div>
-    </div>
-    
     <footer>
         <div class="container">
             <p>ScoreMaster Pro &copy; 2023 | Multi-Sport Tournament Scoring Platform</p>
@@ -2763,9 +2352,7 @@
             // For football
             isTimerRunning: false,
             currentTime: 0,
-            currentHalf: 1,
-            // For QR sharing
-            matchId: generateMatchId()
+            currentHalf: 1
         };
         
         // Cricket Match State
@@ -2842,15 +2429,6 @@
         let previousSteps = [];
         let currentStep = 1;
         
-        // QR Code scanning variables
-        let qrScanner = null;
-        let qrScanningActive = false;
-        
-        // Generate unique match ID
-        function generateMatchId() {
-            return 'match_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-        
         // Initialize the application
         function initApp() {
             setupEventListeners();
@@ -2859,7 +2437,6 @@
             setupMobileMenu();
             setupNavigation();
             setupTeamSelectionEvents();
-            loadFromLocalStorage();
             console.log("App initialized successfully!");
         }
         
@@ -2947,8 +2524,8 @@
             document.getElementById('new-batsman-btn-compact').addEventListener('click', () => openPlayerSelectionModal('newBatsman'));
             document.getElementById('swap-batsmen-btn-compact').addEventListener('click', swapBatsmen);
             
-            // Scorecard button
-            document.getElementById('scorecard-btn-compact').addEventListener('click', showScorecardModal);
+            // Scorecard button in winner section
+            document.getElementById('scorecard-btn-winner').addEventListener('click', showScorecardModal);
             
             // Player modal
             document.getElementById('closePlayerModal').addEventListener('click', () => {
@@ -2991,27 +2568,6 @@
             document.getElementById('reset-timer-btn').addEventListener('click', resetFootballTimer);
             document.getElementById('end-half-btn').addEventListener('click', endFootballHalf);
             
-            // Share score button
-            document.getElementById('share-score-btn-compact').addEventListener('click', shareScoreViaQR);
-            document.getElementById('share-tournament-btn').addEventListener('click', shareScoreViaQR);
-            
-            // QR modal
-            document.getElementById('closeQrModal').addEventListener('click', () => {
-                document.getElementById('qrModal').classList.remove('active');
-            });
-            
-            // Download QR button
-            document.getElementById('downloadQrBtn').addEventListener('click', downloadQRCode);
-            
-            // Scan QR button
-            document.getElementById('scan-qr-btn').addEventListener('click', openScanQRModal);
-            
-            // Scan QR modal
-            document.getElementById('closeScanQrModal').addEventListener('click', closeScanQRModal);
-            
-            // Manual import button
-            document.getElementById('importManualDataBtn').addEventListener('click', importManualData);
-            
             // New match button
             document.getElementById('new-match-btn').addEventListener('click', function() {
                 resetMatchState();
@@ -3032,7 +2588,7 @@
             document.getElementById('tournament-name').addEventListener('input', updateTournamentFromForm);
             
             // Stats buttons
-            document.getElementById('view-tournament-stats-btn').addEventListener('click', showTournamentStats);
+            document.getElementById('view-tournament-stats-btn')?.addEventListener('click', showTournamentStats);
             document.getElementById('closeStats').addEventListener('click', function() {
                 document.getElementById('statsModal').classList.remove('active');
             });
@@ -3056,23 +2612,8 @@
                 }
             });
             
-            document.getElementById('qrModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-            
-            document.getElementById('scanQrModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeScanQRModal();
-                }
-            });
-            
             // Undo button
             document.getElementById('undo-btn-compact').addEventListener('click', undoLastCricketAction);
-            
-            // Save to localStorage on unload
-            window.addEventListener('beforeunload', saveToLocalStorage);
         }
         
         // Add custom rule for custom sport
@@ -3836,7 +3377,6 @@
             currentMatchState.innings = 1;
             currentMatchState.isMatchStarted = true;
             currentMatchState.actionHistory = [];
-            currentMatchState.matchId = generateMatchId();
             
             // Set up based on sport
             if (tournamentData.sport === 'cricket') {
@@ -4112,9 +3652,6 @@
                 updateCustomSportScoring();
                 showNotification(`${tournamentData.sportSpecific.customSportName} match started!`, 'success');
             }
-            
-            // Save to localStorage
-            saveToLocalStorage();
         }
         
         // Update compact live scoring display
@@ -4561,9 +4098,6 @@
                     endMatch();
                 }
             }
-            
-            // Save to localStorage
-            saveToLocalStorage();
         }
         
         // Update player stats after each ball
@@ -4773,9 +4307,6 @@
             updateCompactLiveScoring();
             document.getElementById('playerModal').classList.remove('active');
             showNotification(`Player ${player.name} selected`, 'success');
-            
-            // Save to localStorage
-            saveToLocalStorage();
         }
         
         // Undo last cricket action
@@ -4799,9 +4330,6 @@
             } else {
                 showNotification('Cannot undo this action', 'warning');
             }
-            
-            // Save to localStorage
-            saveToLocalStorage();
         }
         
         // End first innings
@@ -4852,9 +4380,6 @@
             updateCompactLiveScoring();
             
             showNotification(`First innings complete! ${cricketMatchState.battingTeam.name} needs ${cricketMatchState.target} runs to win.`, 'success');
-            
-            // Save to localStorage
-            saveToLocalStorage();
         }
         
         // Show scorecard modal
@@ -4863,31 +4388,116 @@
             scorecardTeams.innerHTML = '';
             
             if (tournamentData.sport === 'cricket') {
+                // Get batting and bowling stats
+                const battingStats = [];
+                const bowlingStats = [];
+                
+                // Collect batting stats (players who scored runs)
+                Object.values(cricketMatchState.playerStats).forEach(player => {
+                    if (player.runs > 0 || player.balls > 0) {
+                        battingStats.push(player);
+                    }
+                    if (player.wickets > 0 || player.ballsBowled > 0) {
+                        bowlingStats.push(player);
+                    }
+                });
+                
                 // Team 1 scorecard
                 const team1Card = document.createElement('div');
                 team1Card.className = 'scorecard-team';
-                team1Card.innerHTML = `
-                    <div class="scorecard-team-name">${currentMatchState.team1.name} - ${cricketMatchState.battingTeam.id === currentMatchState.team1.id ? cricketMatchState.totalRuns : (currentMatchState.innings === 2 ? cricketMatchState.target - 1 : 0)}/${cricketMatchState.battingTeam.id === currentMatchState.team1.id ? cricketMatchState.wickets : 0}</div>
-                    <div class="scorecard-player-list" id="scorecard-team1">
-                        <!-- Players will be populated here -->
-                    </div>
-                `;
+                
+                let team1HTML = `<div class="scorecard-team-name">${currentMatchState.team1.name}</div>`;
+                
+                // Add batting section for Team 1
+                const team1Batting = battingStats.filter(p => p.teamId === currentMatchState.team1.id);
+                if (team1Batting.length > 0) {
+                    team1HTML += `<div class="scorecard-section"><div class="scorecard-section-title">Batting</div>`;
+                    team1Batting.forEach(player => {
+                        if (player.runs > 0 || player.balls > 0) {
+                            team1HTML += `
+                                <div class="scorecard-player-item">
+                                    <div class="player-name-scorecard">${player.name}</div>
+                                    <div class="player-stats-scorecard">
+                                        ${player.runs} (${player.balls}) ${player.fours > 0 ? `${player.fours}x4 ` : ''}${player.sixes > 0 ? `${player.sixes}x6` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    team1HTML += `</div>`;
+                }
+                
+                // Add bowling section for Team 1
+                const team1Bowling = bowlingStats.filter(p => p.teamId === currentMatchState.team1.id);
+                if (team1Bowling.length > 0) {
+                    team1HTML += `<div class="scorecard-section"><div class="scorecard-section-title">Bowling</div>`;
+                    team1Bowling.forEach(player => {
+                        if (player.wickets > 0 || player.ballsBowled > 0) {
+                            const overs = Math.floor(player.ballsBowled / 6) + (player.ballsBowled % 6) / 10;
+                            team1HTML += `
+                                <div class="scorecard-player-item">
+                                    <div class="player-name-scorecard">${player.name}</div>
+                                    <div class="player-stats-scorecard">
+                                        ${player.wickets}/${player.runsConceded} (${overs.toFixed(1)})
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    team1HTML += `</div>`;
+                }
+                
+                team1Card.innerHTML = team1HTML;
                 
                 // Team 2 scorecard
                 const team2Card = document.createElement('div');
                 team2Card.className = 'scorecard-team';
-                team2Card.innerHTML = `
-                    <div class="scorecard-team-name">${currentMatchState.team2.name} - ${cricketMatchState.battingTeam.id === currentMatchState.team2.id ? cricketMatchState.totalRuns : (currentMatchState.innings === 2 ? cricketMatchState.target - 1 : 0)}/${cricketMatchState.battingTeam.id === currentMatchState.team2.id ? cricketMatchState.wickets : 0}</div>
-                    <div class="scorecard-player-list" id="scorecard-team2">
-                        <!-- Players will be populated here -->
-                    </div>
-                `;
+                
+                let team2HTML = `<div class="scorecard-team-name">${currentMatchState.team2.name}</div>`;
+                
+                // Add batting section for Team 2
+                const team2Batting = battingStats.filter(p => p.teamId === currentMatchState.team2.id);
+                if (team2Batting.length > 0) {
+                    team2HTML += `<div class="scorecard-section"><div class="scorecard-section-title">Batting</div>`;
+                    team2Batting.forEach(player => {
+                        if (player.runs > 0 || player.balls > 0) {
+                            team2HTML += `
+                                <div class="scorecard-player-item">
+                                    <div class="player-name-scorecard">${player.name}</div>
+                                    <div class="player-stats-scorecard">
+                                        ${player.runs} (${player.balls}) ${player.fours > 0 ? `${player.fours}x4 ` : ''}${player.sixes > 0 ? `${player.sixes}x6` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    team2HTML += `</div>`;
+                }
+                
+                // Add bowling section for Team 2
+                const team2Bowling = bowlingStats.filter(p => p.teamId === currentMatchState.team2.id);
+                if (team2Bowling.length > 0) {
+                    team2HTML += `<div class="scorecard-section"><div class="scorecard-section-title">Bowling</div>`;
+                    team2Bowling.forEach(player => {
+                        if (player.wickets > 0 || player.ballsBowled > 0) {
+                            const overs = Math.floor(player.ballsBowled / 6) + (player.ballsBowled % 6) / 10;
+                            team2HTML += `
+                                <div class="scorecard-player-item">
+                                    <div class="player-name-scorecard">${player.name}</div>
+                                    <div class="player-stats-scorecard">
+                                        ${player.wickets}/${player.runsConceded} (${overs.toFixed(1)})
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    team2HTML += `</div>`;
+                }
+                
+                team2Card.innerHTML = team2HTML;
                 
                 scorecardTeams.appendChild(team1Card);
                 scorecardTeams.appendChild(team2Card);
-                
-                // Populate player stats
-                populateCricketScorecard();
             } else if (tournamentData.sport === 'football') {
                 // Football scorecard
                 const team1Card = document.createElement('div');
@@ -4981,47 +4591,6 @@
             document.getElementById('scorecardModal').classList.add('active');
         }
         
-        // Populate cricket scorecard
-        function populateCricketScorecard() {
-            const team1List = document.getElementById('scorecard-team1');
-            const team2List = document.getElementById('scorecard-team2');
-            
-            team1List.innerHTML = '';
-            team2List.innerHTML = '';
-            
-            // Team 1 players
-            currentMatchState.team1.players.forEach(player => {
-                const playerStat = cricketMatchState.playerStats[`${player.id}`];
-                if (playerStat) {
-                    const playerItem = document.createElement('div');
-                    playerItem.className = 'scorecard-player-item';
-                    playerItem.innerHTML = `
-                        <div class="player-name-scorecard">${player.name} ${playerStat.isOut ? '' : '*'}</div>
-                        <div class="player-stats-scorecard">
-                            ${playerStat.runs} (${playerStat.balls}) ${playerStat.fours > 0 ? `${playerStat.fours}x4 ` : ''}${playerStat.sixes > 0 ? `${playerStat.sixes}x6` : ''}
-                        </div>
-                    `;
-                    team1List.appendChild(playerItem);
-                }
-            });
-            
-            // Team 2 players
-            currentMatchState.team2.players.forEach(player => {
-                const playerStat = cricketMatchState.playerStats[`${player.id}`];
-                if (playerStat) {
-                    const playerItem = document.createElement('div');
-                    playerItem.className = 'scorecard-player-item';
-                    playerItem.innerHTML = `
-                        <div class="player-name-scorecard">${player.name} ${playerStat.isOut ? '' : '*'}</div>
-                        <div class="player-stats-scorecard">
-                            ${playerStat.runs} (${playerStat.balls}) ${playerStat.fours > 0 ? `${playerStat.fours}x4 ` : ''}${playerStat.sixes > 0 ? `${playerStat.sixes}x6` : ''}
-                        </div>
-                    `;
-                    team2List.appendChild(playerItem);
-                }
-            });
-        }
-        
         // Print scorecard
         function printScorecard() {
             const printWindow = window.open('', '_blank');
@@ -5042,11 +4611,11 @@
                     <h1>${tournamentData.name} - Scorecard</h1>
                     <div class="scorecard">
                         <div class="team-name">${currentMatchState.team1.name}</div>
-                        ${Array.from(document.querySelectorAll('#scorecard-team1 .scorecard-player-item')).map(item => item.outerHTML).join('')}
+                        ${Array.from(document.querySelectorAll('#scorecardTeams .scorecard-team:first-child .scorecard-player-item')).map(item => item.outerHTML).join('')}
                     </div>
                     <div class="scorecard">
                         <div class="team-name">${currentMatchState.team2.name}</div>
-                        ${Array.from(document.querySelectorAll('#scorecard-team2 .scorecard-player-item')).map(item => item.outerHTML).join('')}
+                        ${Array.from(document.querySelectorAll('#scorecardTeams .scorecard-team:last-child .scorecard-player-item')).map(item => item.outerHTML).join('')}
                     </div>
                 </body>
                 </html>
@@ -5159,9 +4728,6 @@
                 
                 showSection('winner-announcement');
                 document.querySelector('.nav-item[data-section="winner-announcement"]').classList.add('active');
-                
-                // Clear localStorage
-                localStorage.removeItem('scoremaster_match_data');
             } else {
                 showNotification("Match is still in progress", 'warning');
             }
@@ -5285,233 +4851,6 @@
             document.getElementById('statsModal').classList.add('active');
         }
         
-        // Share score via QR code
-        function shareScoreViaQR() {
-            // Create match data object
-            const matchData = {
-                tournamentData: tournamentData,
-                currentMatchState: currentMatchState,
-                cricketMatchState: tournamentData.sport === 'cricket' ? cricketMatchState : null,
-                footballMatchState: tournamentData.sport === 'football' ? footballMatchState : null,
-                customSportMatchState: tournamentData.sport === 'custom' ? customSportMatchState : null,
-                timestamp: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            // Convert to JSON string
-            const matchDataString = JSON.stringify(matchData);
-            
-            // Generate QR code
-            const qrCodeContainer = document.getElementById('qrCodeDisplay');
-            qrCodeContainer.innerHTML = '';
-            
-            QRCode.toCanvas(matchDataString, { 
-                width: 200,
-                height: 200,
-                margin: 1,
-                color: {
-                    dark: '#000000',
-                    light: '#FFFFFF'
-                }
-            }, function (error, canvas) {
-                if (error) {
-                    console.error(error);
-                    showNotification('Failed to generate QR code', 'error');
-                    return;
-                }
-                
-                qrCodeContainer.appendChild(canvas);
-            });
-            
-            // Show the modal
-            document.getElementById('qrModal').classList.add('active');
-        }
-        
-        // Download QR code as image
-        function downloadQRCode() {
-            const canvas = document.querySelector('#qrCodeDisplay canvas');
-            if (canvas) {
-                const link = document.createElement('a');
-                link.download = `scoremaster_match_${currentMatchState.matchId}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showNotification('QR code downloaded', 'success');
-            }
-        }
-        
-        // Open scan QR modal
-        function openScanQRModal() {
-            document.getElementById('scanQrModal').classList.add('active');
-            startQRScanner();
-        }
-        
-        // Close scan QR modal
-        function closeScanQRModal() {
-            document.getElementById('scanQrModal').classList.remove('active');
-            stopQRScanner();
-        }
-        
-        // Start QR scanner
-        function startQRScanner() {
-            const video = document.getElementById('camera-preview');
-            const cameraPlaceholder = document.getElementById('cameraPlaceholder');
-            const canvas = document.getElementById('qr-canvas');
-            const context = canvas.getContext('2d');
-            
-            // Check if browser supports camera access
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                cameraPlaceholder.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>Camera access not supported in this browser</p>
-                    <p>Please use manual import instead</p>
-                `;
-                return;
-            }
-            
-            // Request camera access
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                .then(function(stream) {
-                    video.srcObject = stream;
-                    video.style.display = 'block';
-                    cameraPlaceholder.style.display = 'none';
-                    
-                    video.play();
-                    qrScanningActive = true;
-                    scanQRCode(video, canvas, context);
-                })
-                .catch(function(err) {
-                    console.error('Camera access error:', err);
-                    cameraPlaceholder.innerHTML = `
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>Camera access denied or unavailable</p>
-                        <p>Please allow camera permissions or use manual import</p>
-                    `;
-                });
-        }
-        
-        // Stop QR scanner
-        function stopQRScanner() {
-            qrScanningActive = false;
-            const video = document.getElementById('camera-preview');
-            const stream = video.srcObject;
-            
-            if (stream) {
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-                video.srcObject = null;
-            }
-            
-            video.style.display = 'none';
-            document.getElementById('cameraPlaceholder').style.display = 'block';
-        }
-        
-        // Scan QR code from video stream
-        function scanQRCode(video, canvas, context) {
-            if (!qrScanningActive) return;
-            
-            // Check if video is ready
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.height = video.videoHeight;
-                canvas.width = video.videoWidth;
-                
-                // Draw video frame to canvas
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                // Get image data from canvas
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                
-                // Simple QR code detection (in a real app, you'd use a QR code library)
-                // For now, we'll just check for specific patterns
-                
-                // This is a simplified approach - in production, use a proper QR code library
-                // like jsQR: https://github.com/cozmo/jsQR
-            }
-            
-            // Continue scanning
-            requestAnimationFrame(() => scanQRCode(video, canvas, context));
-        }
-        
-        // Import data manually
-        function importManualData() {
-            const importText = document.getElementById('manualImportText').value.trim();
-            
-            if (!importText) {
-                showNotification('Please enter match data', 'warning');
-                return;
-            }
-            
-            try {
-                const matchData = JSON.parse(importText);
-                importMatchData(matchData);
-            } catch (error) {
-                console.error('Error parsing match data:', error);
-                showNotification('Invalid match data format', 'error');
-            }
-        }
-        
-        // Import match data from QR code
-        function importMatchData(matchData) {
-            try {
-                // Validate match data
-                if (!matchData.tournamentData || !matchData.currentMatchState) {
-                    throw new Error('Invalid match data format');
-                }
-                
-                // Import tournament data
-                tournamentData.sport = matchData.tournamentData.sport;
-                tournamentData.name = matchData.tournamentData.name;
-                tournamentData.teams = matchData.tournamentData.teams;
-                tournamentData.sportSpecific = matchData.tournamentData.sportSpecific;
-                
-                // Import match state
-                currentMatchState = matchData.currentMatchState;
-                
-                // Import sport-specific match state
-                if (tournamentData.sport === 'cricket' && matchData.cricketMatchState) {
-                    cricketMatchState = matchData.cricketMatchState;
-                } else if (tournamentData.sport === 'football' && matchData.footballMatchState) {
-                    footballMatchState = matchData.footballMatchState;
-                } else if (tournamentData.sport === 'custom' && matchData.customSportMatchState) {
-                    customSportMatchState = matchData.customSportMatchState;
-                }
-                
-                // Update UI
-                updateSportUI();
-                document.getElementById('tournament-name-display').textContent = tournamentData.name;
-                document.getElementById('tournament-title-compact').textContent = tournamentData.name;
-                
-                // Show success notification
-                showNotification('Match data imported successfully!', 'success');
-                
-                // Close scan modal
-                closeScanQRModal();
-                
-                // Go to live scoring if match is started
-                if (currentMatchState.isMatchStarted) {
-                    goToStep(5);
-                    updateCompactLiveScoring();
-                } else {
-                    goToStep(4);
-                }
-                
-                // Show import notification
-                const importNotification = document.createElement('div');
-                importNotification.className = 'import-notification';
-                importNotification.textContent = 'Match data imported successfully!';
-                document.body.appendChild(importNotification);
-                
-                setTimeout(() => {
-                    if (document.body.contains(importNotification)) {
-                        document.body.removeChild(importNotification);
-                    }
-                }, 3000);
-                
-            } catch (error) {
-                console.error('Error importing match data:', error);
-                showNotification('Failed to import match data: ' + error.message, 'error');
-            }
-        }
-        
         // Reset match state for a new match
         function resetMatchState() {
             currentMatchState = {
@@ -5523,8 +4862,7 @@
                 actionHistory: [],
                 isTimerRunning: false,
                 currentTime: 0,
-                currentHalf: 1,
-                matchId: generateMatchId()
+                currentHalf: 1
             };
             
             cricketMatchState = {
@@ -5591,55 +4929,10 @@
             setupMatchConfiguration();
         }
         
-        // Save to localStorage
-        function saveToLocalStorage() {
-            try {
-                const saveData = {
-                    tournamentData: tournamentData,
-                    currentMatchState: currentMatchState,
-                    cricketMatchState: tournamentData.sport === 'cricket' ? cricketMatchState : null,
-                    footballMatchState: tournamentData.sport === 'football' ? footballMatchState : null,
-                    customSportMatchState: tournamentData.sport === 'custom' ? customSportMatchState : null,
-                    timestamp: new Date().toISOString()
-                };
-                
-                localStorage.setItem('scoremaster_match_data', JSON.stringify(saveData));
-            } catch (error) {
-                console.error('Error saving to localStorage:', error);
-            }
-        }
-        
-        // Load from localStorage
-        function loadFromLocalStorage() {
-            try {
-                const savedData = localStorage.getItem('scoremaster_match_data');
-                if (savedData) {
-                    const parsedData = JSON.parse(savedData);
-                    
-                    // Check if data is recent (less than 24 hours old)
-                    const savedTime = new Date(parsedData.timestamp);
-                    const currentTime = new Date();
-                    const hoursDiff = (currentTime - savedTime) / (1000 * 60 * 60);
-                    
-                    if (hoursDiff < 24) {
-                        // Ask user if they want to restore
-                        if (confirm('Found a saved match. Do you want to restore it?')) {
-                            importMatchData(parsedData);
-                        }
-                    } else {
-                        // Clear old data
-                        localStorage.removeItem('scoremaster_match_data');
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading from localStorage:', error);
-            }
-        }
-        
         // Initialize the app when the page loads
         document.addEventListener('DOMContentLoaded', function() {
             initApp();
         });
     </script>
 </body>
-</html>
+                                </html>
