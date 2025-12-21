@@ -105,7 +105,7 @@
         /* Main Content Area - Compact for Android */
         main {
             padding: 15px 0;
-            height: calc(100vh - 130px);
+            height: calc(100vh - 180px);
             overflow-y: auto;
         }
         
@@ -166,6 +166,111 @@
             background-color: rgba(0, 255, 139, 0.15);
             border-bottom: 3px solid var(--accent-green);
             color: var(--accent-green);
+        }
+        
+        /* HORIZONTAL STEP PROGRESS */
+        .step-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--border-color);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .step-progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background-color: var(--accent-green);
+            transform: translateY(-50%);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+        
+        .step-indicator {
+            width: 45px;
+            height: 45px;
+            background-color: var(--secondary-dark);
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 3;
+            transition: var(--transition);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .step-indicator.active {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--primary-dark);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 5px rgba(0, 255, 139, 0.2);
+        }
+        
+        .step-indicator.completed {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--primary-dark);
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 55px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            width: 120px;
+            text-align: center;
+        }
+        
+        .step-indicator.active .step-label {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+        
+        .step-indicator.completed .step-label {
+            color: var(--accent-green);
+        }
+        
+        @media (max-width: 768px) {
+            .step-progress {
+                margin-bottom: 20px;
+            }
+            
+            .step-indicator {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .step-label {
+                font-size: 0.7rem;
+                width: 90px;
+                top: 50px;
+            }
         }
         
         /* Sport Selection Dashboard */
@@ -1566,6 +1671,16 @@
             50% { transform: translateY(-10px); }
         }
         
+        @keyframes slideInLeft {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
         /* Custom overs input styling */
         .custom-overs-input {
             display: flex;
@@ -1639,6 +1754,11 @@
         .scorecard-btn-winner {
             margin-top: 15px;
         }
+        
+        /* Step progress container */
+        .step-progress-container {
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 <body>
@@ -1678,26 +1798,30 @@
     </nav>
     
     <main class="container">
-        <div class="step-progress" id="step-progress">
-            <div class="step-indicator active" data-step="1">
-                1
-                <div class="step-label">Select Sport</div>
-            </div>
-            <div class="step-indicator" data-step="2">
-                2
-                <div class="step-label">Tournament Setup</div>
-            </div>
-            <div class="step-indicator" data-step="3">
-                3
-                <div class="step-label">Create Teams</div>
-            </div>
-            <div class="step-indicator" data-step="4">
-                4
-                <div class="step-label">Match Setup</div>
-            </div>
-            <div class="step-indicator" data-step="5">
-                5
-                <div class="step-label">Live Scoring</div>
+        <!-- Horizontal Step Progress -->
+        <div class="step-progress-container">
+            <div class="step-progress" id="step-progress">
+                <div class="step-indicator active" data-step="1">
+                    1
+                    <div class="step-label">Select Sport</div>
+                </div>
+                <div class="step-indicator" data-step="2">
+                    2
+                    <div class="step-label">Tournament Setup</div>
+                </div>
+                <div class="step-indicator" data-step="3">
+                    3
+                    <div class="step-label">Create Teams</div>
+                </div>
+                <div class="step-indicator" data-step="4">
+                    4
+                    <div class="step-label">Match Setup</div>
+                </div>
+                <div class="step-indicator" data-step="5">
+                    5
+                    <div class="step-label">Live Scoring</div>
+                </div>
+                <div class="step-progress-line" id="step-progress-line"></div>
             </div>
         </div>
         
@@ -2437,7 +2561,34 @@
             setupMobileMenu();
             setupNavigation();
             setupTeamSelectionEvents();
+            updateStepProgress();
             console.log("App initialized successfully!");
+        }
+        
+        // Update step progress visualization
+        function updateStepProgress() {
+            const stepIndicators = document.querySelectorAll('.step-indicator');
+            const progressLine = document.getElementById('step-progress-line');
+            
+            // Update step indicators
+            stepIndicators.forEach(indicator => {
+                const step = parseInt(indicator.getAttribute('data-step'));
+                indicator.classList.remove('active', 'completed');
+                
+                if (step < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (step === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+            
+            // Update progress line width
+            if (progressLine) {
+                const totalSteps = stepIndicators.length;
+                const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+                progressLine.style.width = `${progressPercent}%`;
+                progressLine.style.transition = 'width 0.5s ease';
+            }
         }
         
         // Set up all event listeners
@@ -2474,6 +2625,16 @@
                     goToStep(5);
                     startMatch();
                 }
+            });
+            
+            // Step indicator click events
+            document.querySelectorAll('.step-indicator').forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    const step = parseInt(this.getAttribute('data-step'));
+                    if (step <= currentStep || step === 5) {
+                        goToStep(step);
+                    }
+                });
             });
             
             // Back to setup
@@ -2995,18 +3156,7 @@
                 currentStep = stepNumber;
             }
             
-            const progressWidth = ((stepNumber - 1) / 4) * 100;
-            document.getElementById('step-progress').style.setProperty('--progress-width', `${progressWidth}%`);
-            
-            const stepIndicators = document.querySelectorAll('.step-indicator');
-            stepIndicators.forEach(indicator => {
-                const step = parseInt(indicator.getAttribute('data-step'));
-                if (step <= stepNumber) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
-            });
+            updateStepProgress();
             
             if (stepNumber === 1) {
                 showSection('sport-dashboard');
@@ -3019,16 +3169,30 @@
                 
                 if (stepNumber === 2) {
                     document.getElementById('step1').classList.add('active');
+                    animateStepTransition('step1', 'slideInRight');
                 } else if (stepNumber === 3) {
                     document.getElementById('step2').classList.add('active');
+                    animateStepTransition('step2', 'slideInRight');
                 } else if (stepNumber === 4) {
                     document.getElementById('step3').classList.add('active');
+                    animateStepTransition('step3', 'slideInRight');
                 }
             } else if (stepNumber === 5) {
                 showSection('live-scoring');
             }
             
             updateNavigation();
+        }
+        
+        // Animate step transition
+        function animateStepTransition(stepId, animationName) {
+            const stepElement = document.getElementById(stepId);
+            if (stepElement) {
+                stepElement.style.animation = `${animationName} 0.5s ease`;
+                setTimeout(() => {
+                    stepElement.style.animation = '';
+                }, 500);
+            }
         }
         
         // Update navigation
@@ -3070,6 +3234,7 @@
             }
             
             updateNavigation();
+            updateStepProgress();
         }
         
         // Update tournament data from form
